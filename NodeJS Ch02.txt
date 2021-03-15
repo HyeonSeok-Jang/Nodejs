@@ -1,0 +1,173 @@
+2. 알아두어야 할 자바스크립트: ES2015+ 문법
+    ES - ECMAScript
+    ES2015 == ES6
+
+    2.1 ES2015+
+    2015년 발표 자바스크립트 표준 문법안: 상당한 변화
+    2016년 승인 후 ES6이 되었다.
+
+    babel: 구형 브라우저에서 ES6 돌아가게 해주는 도구
+    
+    2.1.1 const, let
+    * var: 변수 선언(이전 버전)
+    ---> const, let으로 대체
+
+    * var의 단점: Hoisting 호이스팅.
+        변수의 선언이 아무곳에서나 이뤄져서 소스코드 이해도가 떨어짐
+        함수 스코프(=영역)
+        함수 내 변수를 선언하면 어디서든 사용할 수 있었다.
+
+    * const, let: 블록 스코프
+    ??{ (??에 따라 함수 블록, if문 블록, for분 블록 등으로 불림)
+        // 중괄호와 중괄호 사이가 block
+        // 블록에서 선언되면 블록 내에서만 존재한다.
+    }
+
+    // 예시
+    // var x; 호이스팅 되어 맨위로 올라 온 것 처럼 보인다.
+    if(true){
+        var x = 3; // 전연스코프 혹은 함수스코프
+    }
+    console.log(x);
+    VM255:4 3
+
+    if(true){
+        let y = 5; // 블록 스코프 block scope
+    }
+    console.log(y);
+    VM359:4 Uncaught ReferenceError: y is not defined
+        at <anonymous>:4:13
+
+
+
+    let a = 3; // 변수 선언
+    a = 5;
+    const b = 4; // 상수를 의미한다, 한번 초기화 하면 변경할 수 없음.
+    b = 6; //그리고 상수는 반드시 처음 선언시 반드시 초기화 해야한다.
+    VM435:4 Uncaught TypeError: Assignment to constant variable.
+        at <anonymous>:4:3
+    (anonymous) @ VM435:4
+
+    대부분 const getSum = function(a, b){
+        return a+b;
+    }//질문 있음
+
+    2.1.2 템플릿 문자열
+    * 문자열 표현
+    1) ''
+    2) ""
+    3) ``: 백틱, esc 밑에 있는 ~키와 같은 자리를 차지
+            템플릿 문자열로 문자열 내부에서 변수 사용이 가능
+
+    let n1 = 1;
+    let n2 = 2;
+    let res = 3;
+    let str1 = n1+'더하기'+n2+'는 \''+res+'\'';
+    console.log(str1);
+    let str2 = `${n1}더하기 ${n2}는 '${res}'`;
+    console.log(str2);
+
+    2.1.3 객체 리터럴
+    * literal: 구체적인 값
+        1,  123, "김영진" 하나는 숫자 1, 한자는 문자열 김영진의 구체적인 값을 말한다.
+    * object literal: 객체 리터럴은 해당 객체의 타입? 생성된 객체, 실행 도중에 객체의 속성, 메소드를 동적으로 추가 가능하다.
+        - 이전 버전
+            var sayNode = function(){ // 한쪽으로 값을 입력하기 때문에 대입문이라 한다.
+                console.log(`node`);
+            };
+            var es = `ES`;
+            var oldObject = { // 객체 리터럴 선언, 사용 초기화
+                sayJS: function(){ // key:value
+                    console.log(`야호!`);
+                },
+                sayNode:sayNode,
+            }; // oldObject.sayNode(), oldObject.sayJS();를 사용 할 수 있게된다.
+            oldObject[es+6] = 'Fantastic';
+            oldObject.ES6 = 'Fantastic';
+            oldObject.sayJS();
+            oldObject.sayNode();
+            console.log(oldObject.ES6);
+
+
+        - 최신 버전: 속성명에 변수 가능
+            // old를 실습하지 않앗다면 const sayNode=function(){...}으로 써야 함
+            // const sayNode = function(){ // 한쪽으로 값을 입력하기 때문에 대입문이라 한다.
+            //     console.log(`node`);
+            // };
+            // const es = 'ES';
+            const newObject = {
+                sayJS(){// function 생략 가능
+                    console.log(`nodeㅁㄴㅇㄹ`);
+                },
+                sayNode, // sayNode:sayNode라고 이전버전에 한다면... 최신버전엔 key value가 같은 spell이면 한번만 적는다.
+                [es+7]:'환톼스튁',
+            };
+            newObject.sayNode();
+            newObject.sayJS();
+            console.log(newObject.ES7);
+
+            - {name:name, age:age} ==> {name, age};
+
+    2.1.4 화살표 함수 arrow function
+    - 기존: function을 이용해서 함수 정의
+    - 현재
+
+    -old
+    function add(x,y){
+        return x+y;
+    }
+
+    -new
+    const add2 = (x,y) =>{return x+y;};
+    const add3 = (x,y) => x+y;// 함수 내의 명령이 하나며 리턴문일 때
+    const add3 = (x,y) => (x+y); // 이것이 계산되어 리턴이 된다.
+
+    function not1(x){ return !x;};
+    --->
+    const not2 = (x)=>(!x);
+
+    * old와 new의 차이점: this의 바인드 방식의 차이(bind);
+        console과 어쩌구가 언제 bind 되는가?
+    - old는 old의 객체내부의 함수에서 this를 바로 접근 못한다.
+        그래서 변수를 하나 선언 후 할당하여 사용
+
+    - new에서의 this는 자신의 객체를 의미
+
+    - forEach: 나열가능한객체(iterable)에 들어있는 (값을 하나씩 불러와 해당 literal에 삽입해 변수로 반환)
+        원소 각각에 대해 매개변수인 콜백함수를 호출함
+
+    const relationship2 = {
+        name: 'zero',
+        friends: ['zero',`hero`,`xero`],
+        logFriend(){
+            this.friends.forEach(friend => {
+                console.log(this.name, friend);
+            })
+        }
+    };
+    relationship2.logFriend();
+
+    2.1.5 구조분해할당
+    - old객체, 배열로부터 속성 도는 요소 접근
+    객체명. 속성명 ---> 객체명[속성명]
+    배열명[인덱스]
+
+    const a = oldObject;
+    = =(대입 또는 할당 연산자)의 왼쪽에는 리터럴, 수식 사용 불가능
+
+    * 객체의 속성명(키- 콜론 왼쪽)과 할당받을 변수를 같게
+        구조를 분해해서 값을 가져와 대입해준다.
+    const candyMachine = {
+        status:{
+            name: 'node',
+            count: 5,
+        },
+        getCandy(){
+            this.status.count--;
+            return this.status.count;
+        }
+    }
+    
+    const {getCandy, status:{count}} = candyMachine;
+    // candyMachine의 status:count값을 getCandy 실행시켜서 할당시킴
+    
