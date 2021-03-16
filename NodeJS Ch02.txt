@@ -171,3 +171,145 @@
     const {getCandy, status:{count}} = candyMachine;
     // candyMachine의 status:count값을 getCandy 실행시켜서 할당시킴
     
+    2.1.6 Class: 클래스 문법은 ES6에서 새로 도입됨
+    - 자바스크립트를 학술적으로는 객체지향 언어라고 하지 않음
+    - 객체중심언어, 프로토타입기반 언어(prototype based language)
+    Classless language, Instance based language
+    - 프로토타입: 원형 - 객체를 사용하는데, 객체의 원형만 가지고 있고
+    실행 도중에 속성, 메소드를 추가 또는 삭제가 가능한 형태로 되어있었다
+    - 상속, 다형성 구현이 가능하나 매우 어려움
+    const add1 = (a,b)=> return 5;
+
+    * 프로토타입 상속 예제 코드
+    var Human = function (type){ //function-Function 객체
+        this.type = type||'human';
+        console.log('b');
+    }; // this를 사용함으로 Human 클래스명이자 생성자 담당
+    Human.isHuman = function(human){
+        return human instanceof Human;// 앞놈이 뒷놈의 객체인가? 하는 연산자
+    };
+    Human.prototype.breathe = function(){
+        alert(`h-a-a-m`);
+        console.log(`알겠습니다`);
+    }; // 클래스 메소드 구현
+    // Human이라는 객체 구현
+    
+    var Zero = function(type, firstName, lastName){
+        Human.apply(this, arguments);// super();
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }; // Zero라고 하는 객체가 Human 객체를 상속한 것으로 연결
+
+    Zero.prototype = Object.create(Human.prototype); // 원형 복사
+    Zero.prototype.constructor = Zero; // 상속
+
+    Zero.prototype.sayName = function(){
+        // alert(this.firstName+', '+this.lastName);
+        alert(`${this.firstName} ${this.lastName}`);
+    }; //자식객체의 메소드 구현
+
+    var oldZero =  new Zero('human','YeungJin','akakr');
+    Human.isHuman(oldZero);
+
+    console.log();
+
+    * 클래스 문법 도입: 새로운 코드
+
+    class Human {
+        constructor(type = 'human'){
+            // 생성자, 매개변수 1개, human을 디폴트 값으로 설정함
+            // 다형성을 위해 여러개 선언 할 필요가 없다.
+            this.type = type; // 속성을 정의 this를 사용
+        };
+        static isHuman(human){
+        return human instanceof Human;
+        };
+        breathe(){
+         alert('아아악')   ;
+        };
+    };
+    class Zero extends Human{ // extends 로 상송관계 정의
+        constructor(type, firstName, lastName){
+            super(type);
+            this.firstName = firstName;
+            this.lastName = lastName;
+        };
+        sayName(){
+            super.breathe();
+            alert(`${this.firstName} ${this.lastName}`);
+        };
+    };
+    
+    const newZero = new Zero('human','배고파','살려줘');
+    Human.isHuman(newZero);
+
+    2.1.7 프로미스: Promise
+    - 프로미스 이전의 비동기: 콜백처리
+    // 콜백: 내가 다 끝내면 네가 실행해라
+    ES6부터는 프로미스 사용 권장
+    - 반드시 알아야 할 객체
+    - 비동기 처리에서 성공, 실패의 경우를 나눠서 구현
+    - 프로미스 사용 이유 또는 문법 개발 배경
+        콜백 지옥(callback hell)현상 극복을 위해
+    - 프로미스 사용 규칙
+        1) 프로미스 객체 생성
+            객체 생성시의 매개변수: resolve(), reject()를 매개변수로 가진 콜백함수(화살표)
+        2) 생성된 객체에 then(), catch(), finally() 메소드 호출
+            세개의 메소드의 매개변수: 콜백함수
+            resolve()호출---> than() 실행
+            reject()호출---> catch() 실행
+            호출하건 안하건---> finally()
+    // 내가 언젠가 끝내니까 뭔가 하고 있으면 값을 리턴해줄게
+    const num = Math.random();
+    const condition = num<0.5?true:false; // 값에 따라 resolve, reject
+    const promise = new Promise((resolve, reject)=>{
+        if(condition){
+            resolve('성공');
+        }else{
+            reject('성공');
+        }
+    });
+    //blah
+    console.log(num);
+    promise // promise에 then catch finally 생성
+        .then((message)=>{
+            console.log(message);
+        })
+        .catch((error)=>{
+            console.error(error);
+        })
+        .finally(()=>{
+            console.log('무조건');
+        });
+
+    * 추가 코드
+
+
+    const condition = 10?true:false; // 값에 따라 resolve, reject
+    const promise = new Promise((resolve, reject)=>{
+        if(condition){
+            resolve('성공');
+        }else{
+            reject('성공');
+        }
+    });
+    //blah
+    promise // promise에 then catch finally 생성
+        .then((message)=>{
+            return new Promise((resolve, reject)=>{
+                resolve(message+'1');
+            });
+            console.log(message);
+        })
+        .then((message)=>{
+            return new Promise((resolve, reject)=>{
+                resolve(message+'2');
+            });
+            console.log(message);
+        })
+        .then((message)=>{
+            return new Promise((resolve, reject)=>{
+                resolve(message+'3');
+            });
+            console.log(message);
+        })
