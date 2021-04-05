@@ -243,7 +243,9 @@
     const newZero = new Zero('human','배고파','살려줘');
     Human.isHuman(newZero);
 
-    2.1.7 프로미스: Promise
+    2.1.7 프로미스: Promise'
+        비동기: 시간 많이 걸리는 이거 실행되도록 던져두고 데이터 올 때 까지 기다렸다가
+                나는 다른 작업을 실행
     - 프로미스 이전의 비동기: 콜백처리
     // 콜백: 내가 다 끝내면 네가 실행해라
     ES6부터는 프로미스 사용 권장
@@ -266,7 +268,7 @@
         if(condition){
             resolve('성공');
         }else{
-            reject('성공');
+            reject('실패');
         }
     });
     //blah
@@ -284,6 +286,11 @@
 
     * 추가 코드
 
+    프로미스: 내용은 실행됐지만 결과가 아직 반환되지 않아 결과를 반환하려고 하는 객체
+        then을 붙여 결과를 반환
+        resolve(성공리턴값)->then으로 연결
+        reject(실패리턴값)->catch로 연결
+        finally 부분은 무조건 실행
 
     const condition = 10?true:false; // 값에 따라 resolve, reject
     const promise = new Promise((resolve, reject)=>{
@@ -312,4 +319,193 @@
                 resolve(message+'3');
             });
             console.log(message);
-        })
+        })//메소드 체이닝
+
+        프로미스 체이닝
+        프로미스의 then안에 return값이 프로미스를 만들어 resolve를 할 경우
+        자신의 다음 프로미스 then값을 사용하게 되고 하게되고...
+
+
+        - 콜백
+        function findAndSaveUser(Users){
+            Users.findOne({},(err,user)=>{
+                if(err){
+                    return console.error(err);
+                };
+            });
+            user.name='zero';
+            user.save((err)=>{
+                if(err){
+                    return console.error(err);
+                }
+                Users.findOne({gender:'m'},(err,user)=>{
+                    ///
+                });
+            });
+        };
+
+        - 프로미스
+        function findAndSaveUser(Users){
+            Users.findOne({})//findOne() - 프로미스객체 리턴
+                .then((user)=>{
+                    user.name = 'zero';
+                    return user.save(); // save() - 프로미스객체 리턴
+                })
+                .then((user)=>{
+                    return Users.findOne({gender:'m'});
+                })
+                .then((user)=>{
+                    ///
+                })
+                .catch(err=>{
+                    console.log(err);
+                });
+        };
+        하나로 실행되지만 다 콜백으로 리턴하고 있다.
+
+        * 여러개의 프로미스 한꺼번에 실행하기
+        :Promise.all()//객체이름.all();
+        const promise1 = Promise.resolve('성공1');
+        const promise2 = Promise.resolve('성공2');
+        // Promise.resolve(), Promise.reject();
+        // 즉시 resolve하는 프로미스 객체 생성
+        // 즉시 reject하는 프로미스 객체 생성
+        //promise1.then().catch().finally();
+        Promise.all([promise1,promise2])//둘 다 resolve되어야 then을 실행할 수 있다.
+            .then((res)=>{
+                console.log(res);//['성공1','성공2']
+            })
+            .catch((err)=>{
+                console.log(err);
+            });
+        promise 객체를 만들고 then을 배출한다를 할 수 있어야 만들 수 있다
+
+    2.1.8 async/await: ES2017부터, Node 7.6부터 지원
+    - ES6+/ES2015+
+    - 프로미스가 콜백헬을 극복하고 있지만, 코드의 장황성은
+        개선되지 못함
+        function findAndSaveUser(Users){
+            Users.findOne({})//findOne()
+                .then((user)=>{
+                    user.name = 'zero';
+                    return user.save();
+                })
+                .then((user)=>{
+                    return Users.findOne({gender:'m'});
+                })
+                .then((user)=>{
+                    ///
+                })
+                .catch(err=>{
+                    console.log(err);
+                });
+        };
+        1) function을 async function으로 변경
+        2) 프로미스 객체 반환 함수들에 호출을
+            변수 = await 함수명();의 형식으로 바꾼다
+        async function findAndSaveUser(Users){
+            try{
+                let user = await Users.findOne({});
+                user.name = 'zero';
+                user = await user.save();
+                user = await Users.findOne({gender:'m'});
+                ///
+            }catch(error){
+                console.log(error);
+            }
+        }
+
+        함수이기 때문에 화살표 함수로 쓸 수 있다
+        const findAndSaveUser = async(Users)=>{
+            try{
+                let user = await Users.findOne({});
+                user.name = 'zero';
+                user = await user.save();
+                user = await Users.findOne({gender:'m'});
+                ///
+            }catch(error){
+                console.log(error);
+            }
+        }
+
+        * async 함수는 항상 Promise 객체를 반환한다
+        async function findAndSaveUser(Users){
+            return new Promise({...});
+            //언젠가인지 모르겠으나 return값이 있을것이다.
+        }
+        findAndSaveUser().then(()=>{
+
+        });
+        //이런식으로 콜백이나 then을 붙이는 코딩이 가능하다
+        async function other(){
+            const res = await findAndSaveUser();
+        }//이렇게 다른 function에서 부를 수 있다.
+        //서버쪽 java script...
+
+        //js = java script
+
+    2.2 Front-End js
+        : html내의 script 태그안에 작성되어 실행되는 JS 코드
+        DOM, BOM, aJax
+        Document Object Model: html소스코드를 객체로 만들어 
+                                Document객체로 관리
+                - element: 태그를 객체로 만들어 이 이름을 붙임, html, head, body 등이 있음, node(노드)라고 불리기도 함(nodeJS랑 다름)
+                - attribute: 시작태그에 있는 속성
+                    a태그의 href
+                - getElementById
+                - getElementsByTagName
+                - getElementsByClassName
+                - querySelector, querySelectorAll
+        Browser Object Model: window객체, Document객체, etc...
+            history객체,...
+            location.href='주소'
+            redirection 기능 구현시 사용
+        2.2.1 - aJax(Asynchronous Javascript And XML=비동기 자바스크립트와 XML)
+            웬페이지 전환없이 새로운 데이터를 불러와서
+            화면에 변화를 부분적으로 하게 하는 기능
+        - Web 2.0 시도 도래
+        - MashUp, OpenAPI라는 기능을 구현 할 수 있도록 함
+            다른 회사의 OpenAPI를 가져와서 MashUp하여 보여주고 있다.
+            이 행위를 aJax라고 한다.
+
+        - aJax 요청 응답 라이브러리
+            1) XMLHttpRequest 객체: 표준
+            그래서 나온게 fetch
+            $.ajax()===> jQuery
+            axios(): 프로미스, async/await 잘 지원
+            
+            ajax matome
+            air-h.jp/article
+            
+        front.html 사용예제
+        - axios.get(): get 요청 대응하는 aJax 기능 호출 메소드
+            반환값: promiss 객체
+        - axios.post(): post 요청 처리, 반환값은 promis객체
+
+        - axios  p.83에서 예제코드는 실행시 에러 발생
+            이유는 CORS에러 -p.482 참고
+
+        2.2.2 FormatData
+        form 태그와 관련되어있다.
+        동적으로 관리가 가능
+        
+        2.2.3 encodeURIComponent(), decodeURIComponent()
+        - url주소에서 한글처리하기 위한 메소드
+        - BOM 중에 window객체의 메소드
+            window객체는 BOM객체의 최상위 객체
+            대표적으로 alert(), confirm(), open() 같은 것들이 있다.
+            원래는 window.alert(), window.confirm(), window.open()로 써야하지만 생략 할 수 있다.
+
+        2.2.4 데이터 attribute와 dataset
+        * HTML5에서 태그에 사용자 정의 속성을 사용할 있음?
+            data-+사용자 정의 속성명을 넣으면 된다.
+            data-id
+            data-user-job
+            사용자 별로 다르게 무언가를 부여할 때 사용한다
+            dataset으로 접근/사용할 때
+            키값은 data-를 떼어낸 단어를 사용하는데, data-다음의 합성어(user-job)일때는 userJob이 된다
+                                            단어1-단어2-단어3...이라면 단어 1제외 모든 단어의 첫글자를 대문자로 만든다
+                                            사용자 속성을 대문자>앞글자-로 바꾼다.
+                                            querySelector에 dataset.데이터 값=값;을 넣어주면 해당 html 태그에 attribute가 추가적으로 들어간다.
+         
+         

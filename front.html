@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <ul>
+        <li data-id="1" data-user-job="programmer">Zero</li>
+        <li data-id="2" data-user-job="designer">Neo</li>
+        <li data-id="3" data-user-job="programmer">Heroin</li>
+        <li data-id="4" data-user-job="ceo">Keronin</li>
+    </ul>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.js"></script> -->
+    <script>
+        //여기 코딩이 가능하다
+        // axios.get("https://www.zerocho.com/api/get") //promise 객체
+        // .then(result=>{
+        //     //promise의 then 콜백
+        //     console.log(result); //get방식으로 요청한 응답결과가 result에 담긴다
+        //     console.log(result.data); //응답 결과중 전송받을 데이터를 저장, JSON상태로 날아감
+        // })
+        // .catch(err=>{
+        //     console.log(err);
+        // });
+
+        /* (
+            async() =>{ //async 화살표 함수 정의 
+                        //익명 함수
+                try{
+                    const result = await axios.get("https://www.zerocho.com/api/get");
+                    console.log(result);
+                    alert(result.status < 200?'성공':'실패');
+                    console.log(result.data);
+                }catch(err){
+                    console.log(err);
+                };
+            }
+        )();//익명함수 호출 */
+/*
+        (
+            async() =>{ 
+                try{
+                    const result = await axios.post("https://www.zerocho.com/api/post/json");
+                    {//JSON객체로 서버에 요청시 전달할 입력값
+                        name:'김영진',
+                        birth:1978,
+                    };
+                    
+                    console.log(result);
+                    alert(result.status >= 200?'성공':'실패');
+                    console.log(result.data);
+                }catch(err){
+                    console.log(err);
+                };
+            }
+        )();*/
+        // const formData = new FormData();
+        // formData.append('name','김영진');//첫번째 매개변수 - key, 두번째 매개변수 - value
+        // formData.append('item','IU');
+        // formData.has('item','money');
+        // formData.has('item','신난다!');
+        // formData.getAll('name','item');
+        // formData.append('test', ['하이','영진']);
+        // formData.set('item', 'apple');
+        // formData.getAll('item');
+
+        /*
+        (
+            async() =>{ 
+                try{
+                    const formData = new FormData();
+                    // const name = document.querySelector('input')[0];
+                    // formData.append('name',name);
+                    formData.append('name','김영진');
+                    formData.append('birth',1990);
+                    const result = await axios.post(
+                        "https://www.zerocho.com/api/post/formdata"
+                    )
+                    console.log(result);
+                    alert(result.status >= 200?'성공':'실패');
+                    console.log(result.data);
+                }catch(err){
+                    console.log(err);
+                };
+            }
+        )();*/
+
+        /*
+        (
+            async() =>{ 
+                try{
+                    const result = await axios.get(`https://www.zerocho.com/api/search/${encodeURIComponent('노드')}`);
+                    window.console.log(result);
+                    window.alert(result.status >= 200?'성공':'실패');
+                    window.console.log(result.data);
+                }catch(err){
+                    console.log(err);
+                };
+            }
+        )();*/
+
+
+
+    </script>
+
+
+    <script>
+        console.log(document.querySelectorAll('li'));
+        console.log(document.querySelector('li').dataset);
+        document.querySelectorAll('li')[1].dataset.monthSalary = 10000;
+        
+    </script>
+</body>
+</html>

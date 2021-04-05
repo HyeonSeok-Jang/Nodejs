@@ -1,0 +1,237 @@
+3. 노드의 기능 알아보기
+    외우기 보다 익숙해지기
+    시간이 없기 때문에 외우는 것도
+    잊어버린 경우에 다시 찾아보기
+    3.1 REPL 사용하기
+        Read Evaluate Print Loop
+        읽고 평가하고 출력하는 반복
+
+        java.exe
+        javac.exe .java의 바이트 코드를 읽어 .class파일로 반환
+
+        nodejs에도 소스코드를 읽고 평가하고 그 결과를 출력해주는 명령어가 있다
+        node.exe가 있다
+        스크립트 언어에서 주로 실행을 위해 사용된다
+
+        ---> 스크립트 언어는 컴파일 하지 않는다
+        미린 컴파일 하지 않고 한줄한줄 읽고 평가하고 그 결과를 출력
+
+        JS의 실행환경
+        1) 브라우저의 콘솔tab에서 
+        2) Node의 곤솔: REPL
+            node.exe
+        실행방법
+        1) ctrl+` 입력>node입력
+        2) 실행하려던 폴더에서 SHIFT>오른쪽 마우스로>PowerShell 실행
+
+        종료방법
+        1) ctrl + C  2번 입력
+        2) .exit 엔터
+
+        *테스트: p.91
+
+        * 소스 코드가 일반적으로 길다.
+        ---> 그러면 소스코드를 파일로 저장 한 다음 실행시키는 컷이 일반적
+
+    3.2 JS 파일 실행학
+        1) hello.파일 생성
+        2) NODE파일명
+            node hello world[.js]//확장자 생략 가능
+
+    3.3 모듈로 만들기
+        모듈(module): 특정 기능을 하는 함수나 변수들의 집합
+
+        실습: 3가지의 파일 필요
+        모듈로 정의 할 파일
+            var.js 
+        모듈을 사용 할 파일
+            func.js
+            idx.js
+
+        1) 새 파일을 같은 폴더에 작성
+        2) var. js 파일 작성
+        3) func.js 파일 작성
+        4) idx.js 파일 작성
+
+        모듈로 만들기
+        1) 소스코드에서
+        module.exports = 변수, 객체, 함수
+
+        모듈 사용하기
+        - 다른 파일의 모듈 불러오기: require(모듈 경로)
+
+    3.4 노드 내장 객체 알아보기
+        * 내장 객체: 이미 노드가 정의해 둔 모듈
+        * require없이 사용가능한 객체
+
+        사용해본 내장객체
+        console객체, module객체
+
+
+        window객체: BOM객체, 브라우저에서만 사용가능
+        document객체: DOM객체, 브라우저에서만 사용가능
+
+        3.4.1 global 내장객체
+        전역개체--->파일간의 데이터 공유--->파일안의 공유에 따라 데이터를 많이 잡아먹으므로 남용하지 말자!!
+
+        생략이 가능함
+
+        3.4.2 console: [global.]console
+
+        - console.log()
+        - console.error(), console.trace()
+        - console.time(레이블), console.timeEnd(레이블)
+
+        3.4.3 타이머
+        - setTimeout(콜백함수, 밀리초)
+        - setInterval(콜백함수, 밀리초)
+        - setImmediate(콜백함수)
+        set+~함수의 반환값: 타이머 아이디
+
+        -->
+        타이머 취소: clear+~함수(아이디)
+        clearTimeout(아이디)
+        clearInterval(아이디)
+        clearImmediate(아이디)
+
+        * setImmediate(콜백) vs. setTimeout(콜백, 0)
+        --> setTimeout(콜백, 0)을 사용하지 않는 것을 권장
+
+        3.4.4 __filename, __dirname
+
+        __filename: 실행 할 때 현재 실행중인 파일명
+        __dirname: 실행 할 때 현재 실행중인 폴더명(디렉토리명)
+        경로를 포함하여 표시한다.
+
+        * 경로 구분자
+            윈도우: \
+            맥, 리눅스: /
+
+        3.4.5 module, exports, require
+        * JS에서 함수는 Function형 객체이다.
+        * 모듈 작성: module.exports (global.module. exports)
+        * 모듈 작성 추가 방법: exports (global.exports)
+
+        exports ==> module.exports ==> {}//실제 모듈을 참조
+
+        exports는 module.exports를 이용해 실제 모듈을 간접 참조하고있다.
+
+        * module.exports로 모듈 작성 권장
+
+        * 노드에서 this의 의미
+        - 최상위 스코프(전역 스코프)의 this: module.exports, exports
+        - 함수내의 this: global 객체, JS에서의 함수는 ---> Function형 객체
+        
+        *require(): 함수--->Function형 객체
+        - require.cache
+        - require.main
+
+        * require 주의사항
+        - 상호 의존관계인 경우 주의가 필요
+
+        (dependeny 문제 발생)
+        -ctrl+F2: 같은 내용 한꺼번에 바꾸기
+
+        3.4.6 process
+        node.exe가 메인 메모리에 로딩되어 실행되고 있는 것을 프로세스
+        
+        - process.arch: 프로세서 아키텍쳐 정보 arm, ia32
+
+        - process.version: node버전
+        - process.version: OS 플랫폼 정보 linux, darwin, freebsd
+        - process.pid: 프로세스의 index
+        - process.uptime(): 프로세스 시작 후 경과시간
+        - process.cwd(): 프로세스 실행되는 경로
+            cwd: current working directory
+        - process.cpuUsage(): 프로세스의 CPU사용량
+
+        3.4.6.1 process.env
+            env: environment(환경)
+            process.env에 환경정보를 저장해 두고 그 정보를 실행시 사용
+            주로 공개되지 말아야 할 정보를 담아둔다
+            (DB의 ID, PWD)
+
+        3.4.6.2 process.nextTick(콜백)
+            * 즉시 실행 방법
+            1) setTimeout(콜백,0)
+            2) setImmediate(콜백)
+            3) process.nextTick(콜백) //우선순위가 높다
+            4) Promise의 resolve(콜백) //우선순위가 높다
+            3,4번은 우선순위가 높아 더 먼저 실행되고 microtask라고 한다
+            * 주의 사항: 마이크로태스크 내부에서 재귀호출 금지, 다른 작업을 대기처리 하기 때문에 상당히 느려진다
+
+        3.4.6.3 process.exit(코드): 프로세스를 종료시킴
+            0 정상 종료
+            1이상 비정상 종료
+
+    3.5 노드 내장 모듈 사용하기
+    https://nodejs.org/dist/latest-v14.x/docs/api/
+    참고
+        3.5.1 OS모듈
+        - operating system의 약자
+          운영 체제
+        - 운영 체제의 정보를 다루는 내장 모듈
+          require가 필요한 모듈이다.
+
+
+        3.5.2 path 2.5별점
+        폴더와 파일의 경로를 위한 모듈
+        --> OS별로경로 구분자가 다름
+
+        * 경로 구분자가(path seperator)
+        - 윈도: \ (back slash)
+            C:\Users\ZeroCho
+        - POSIX: / (맥, Linux등 포함 유닉스 계열)
+            C:/Users/ZeroCho
+        노드에서 별다른 이야기가 없으면
+        /로 구분한다
+
+        delimeter: ;
+
+        3.5.3 url 4점 별점
+        인터넷 주소 관련 모듈
+
+        인터넷 주소를 처리하는 방식
+        1) WHATWG(웹의 표준 제정하는 단체)방식
+        2) 노드에서 전통적으로 사용해온 방식
+        
+        https://[user:pass@]sub.host.com:8080/p/a/t/h?query=string#hash
+        https - 프로토콜의 이름
+        user - 사용자명
+        pass - 비밀번호
+        @sub.host.com:8080 - 서버.도메인.주소:포트번호
+        도메인 주소를 가져와서 도메인 주소 서버에 물어본 뒤 아이피를 받아서 해당하는 url에 다시 요청
+
+        ftp://아이디.패스워드@주소
+        /p/a/t/h ? query=string - 경로 (?를 기준으로) 요청 쿼리
+
+        - 요청 쿼리
+        키=값
+        키1=값1&키2=값2&키3=값3...
+
+        #hash - 해시코드, a태그의 레이블을 의미
+        해시코드에 있는 명령어를 브라우저에 띄움
+
+        * searchParams 사용법
+        p.121~122익히기
+
+        3.5.4 querystring
+        - 기존 노드 방식 사용시 사용
+
+        * .parse(): 문자열 --> 객체
+        * .format(): 객체 --> 문자열
+        * .stringify(): 객체 --> 문자열
+
+        3.5.5 crypto
+        암호화를 도와주는 모듈
+        주요정보(비밀번호)는 암호화 할 필요가 있다
+            3.5.5.1 단방향 암호화
+            - 주로 비밀번호에 대해 사용
+            - 복호화가 불가능한 암호화 방식
+            - 복호화, 암호를 평범한 문장으로 바꾼 것
+              암호화: 평범한 문장을 암호처리한 것
+
+            * 해시 기법: 어떤 문자열, 임의의 문자열을 고정된 길이의 다른 문자열로 바꾸는 방식
+
+
+            3.5.5.2 양방향 암호화
