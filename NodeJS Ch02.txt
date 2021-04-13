@@ -90,7 +90,7 @@
 
 
         - 최신 버전: 속성명에 변수 가능
-            // old를 실습하지 않앗다면 const sayNode=function(){...}으로 써야 함
+            // old를 실습하지 않았다면 const sayNode=function(){...}으로 써야 함
             // const sayNode = function(){ // 한쪽으로 값을 입력하기 때문에 대입문이라 한다.
             //     console.log(`node`);
             // };

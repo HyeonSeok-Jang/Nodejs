@@ -1,0 +1,83 @@
+4. http 모듈로 서버 만들기
+  4.1 요청과 응답 이해하기
+    * server vs. clearInterval 
+      서비스 제공(웹 서버) vs. 클라이언트(웹 브라우저)
+    * request vs. response
+    - 클라이언트에서 Server로 리퀘스트를 보낸다
+    - 서버는 리퀘스트 정보를 확인 후 처리
+    - Server는 처리 결과를 client에 reposne해야 함
+
+    이벤트 처리와 유사
+    이벤트가 서버로 오면 미리 정해 둔 이벤트 리스너(CALL, back)을 처리하고 그 결과를 클라이언트로 응답
+    
+    * 노드에서 HTTP서버를 만들기 위해
+        ~를 사용한다
+
+    사용하는 통신규약(프로토콜)
+
+    * HTTP: Request 와 Response를 위해
+    Hyper Txt Transfer Protocol
+    HTTP의 메세지를 주고 받음
+    HTTP Headers와 boy로 구성
+    Http Message 종류:
+    HTTP 요청 메세지
+      header+ body(사용자 입력값)
+    HTTP 응답 메세지
+      header+ body(html1문서)
+    이래놓고 거꾸로 사용
+
+    - localhost: 현재 컴퓨터의 내부 도메인 주소
+      127.0.0.1: 현재 컴퓨터의 내부 IP주소
+    - 포트번호
+    0~1024 포트번호는 시스템 예약 포트번호
+    80: 웹서버포트
+    21: FTP서버포트
+    23: TELNET서버포트
+    포트는 하나만 열어두는게 좋다
+
+    * html 파일을 읽어서 전송하기: fs모듈 사용
+
+    * HTTP status code
+    2XX: 성공, 200-성공, 201(작성됨)
+    3XX: 리다이렉션, 301(영구이동), 302(임시이동), 304(수정되지 않음)
+    4XX: 400-잘못된 요청, 401-권한 없음, 403-금지됨 forbidden, 404-notfound 찾지못함
+    5XX: 서버오류, 500-서버 내부 오류, 502-불량게이트웨이, 503-서비스 사용불가
+
+  4.2 REST와 라우팅 사용하기
+  - REST : REpresentional State Transfer(대표적인 상태 전달)
+    대표적인 상태 전달, 주소로 이루어짐
+
+  - RESTful하게 서비스 개발 권장
+    주소에 의미를 명확하게 전달하도록 주소 구성을 하자.
+
+  - RESTful하게 개발 권장사항
+    주소: 명사형으로 지정
+    /user: 사용자 관련 서비스 요청 주소
+    /post: 게시물 관련 서비스 요청 주소
+    이런식으로 정리해놓은게 RESTful하게...
+    
+    CRUD(Create-Read-Update-Delete)의 표현은 어떻게 할 것인가?
+      HTTP요청방법(Request Method)를 가지고 구분함.
+
+    * HTTP Request Method: GET, POST, PUT, PATCH, DELETE를 실험 해 볼 수 있다.
+    PostMan 찾아보고 사용법 익혀두면... 브라우저 없이 HTTP 요청 메소드를 테스트 해볼 수 있다.
+
+    만일 GET /user라고 썼다면 클라이언트에 요청 어쩌구 가져온다.
+    PATCH /user/1 1번 id를 가진 user의 정보를 수정
+    DELETE /user/1 1번 id를 가진 user를 삭제
+
+    * REST 주소구조로 개발한 서버
+      RESTful하다
+      RESTful 웹서버
+
+
+    p.151/p.180
+    나머지 클라이언트
+    restfront.js //클라이언트
+    about.html //클라이언트
+    restserver.js //서버 프로그램
+
+    서버에 파일이 있지만 그것을 웹서버 프로그램이 읽어서 클라이언트로 보내주고
+    응답하면 그 결과를 브라우저가 읽어서 처리해서 보여줌
+
+  4.3 쿠키와 세션 이해하기
