@@ -4,7 +4,9 @@ async function getUser() {
     const res = await axios.get('/users'); // GET /users 요청
     const users = res.data; // 클라이언트 users
     // const list = document.getElementById('list');
-    const list = document.querySelector('#list');
+    console.log(res.data);
+    const list = document.getElementById('list');
+    // const list = document.querySelector('#list');
     //id가 list인 element를 찾아 반환
     //list 값<div id="list"></div>
     list.innerHTML = '';
