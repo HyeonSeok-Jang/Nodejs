@@ -1,20 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>restFront</title>
-    <link rel="stylesheet" href="restFront.css">
-</head>
-<body>
-    <nva>
-        <a href="/">Home</a>
-        <a href="/about">About</a>
-    </nva>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <title>RESTful SERVER</title>
+    <link rel="stylesheet" href="./restFront.css" />
+  </head>
+  <body>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/about">About</a>
+    </nav>
     <div>
-        <form action="">
-            <input type="text">
-            <button type="submit"></button>
-        </form>
+      <form id="form">
+        <input type="text" id="username" />
+        <button type="submit">등록</button>
+      </form>
     </div>
-</body>
+    <div id="list"></div>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="./restFront.js"></script>
+  </body>
 </html>
