@@ -77,16 +77,16 @@ async function getUser() {
 window.onload = getUser; // 화면 로딩 시 getUser 호출
 // 폼 제출(submit) 시 실행
 document.getElementById('form').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const name = e.target.username.value;
+  e.preventDefault(); //submit의 이벤트 본래 동작을 안하게 함
+  const name = e.target.username.value; // input tag의 userid 입력값을 가져옴
   if (!name) {
     return alert('이름을 입력하세요');
   }
   try {
-    await axios.post('/user', { name });
+    await axios.post('/user', { name }); // POST /user 요청
     getUser();
   } catch (err) {
     console.error(err);
   }
-  e.target.username.value = '';
+  e.target.username.value = ''; //input tag의 기본값을 제거
 });
