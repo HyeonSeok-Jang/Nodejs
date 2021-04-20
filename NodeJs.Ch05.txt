@@ -20,5 +20,18 @@
     npm에서 패키지의 사용은 자유롭지만 특허권 등의 여러가지 제한이 있을 수 있다.
 
   5.3 package 설치하기
-    - npm install package명 [--save]
+    - npm install package명 [--save] // 이전엔 --save하지않으면 dependencies에 저장이 안되었다. 그래서 있음
       npm install express 
+      npm install morgan cookie-parser express-session
+      npm install --save-dev nodemon
+      npm install -D nodemon // 위와 같은 의미, 개발에 필요하다는 소리
+      // devDependencies 개발에 필요한 패키지
+      // dependencies 실행에 필요한 패키지
+      package.json만 있으면 관련 package는 다 설치할 수 있으므로 package.json만 넘겨주면 된다.
+      github에도 자기 소스파일과 package.json만 올라감.
+
+    * package.json이 존재할 경우
+      내 프로젝트 실행시
+    npm install 명령어 입력
+
+    4. 주로 4장까지 실습... 해봐야함... 다음 소스코드 채우기 다음 실행은 어떻게 될 것인가? 개념설명도 있음
