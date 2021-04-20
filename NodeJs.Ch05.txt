@@ -1,0 +1,24 @@
+5. 패키지매니저
+  NPM(Node Package Manager)사용법
+
+  5.1 npm 알아보기
+    ---> 대체 관리툴이 나옴: yarn
+    npm은 Node의 default 패키지 관리자 // 오픈소스
+    yarn: facebook사의 패키지 관리자
+    어떤 회사의 것을 사용하면 발목잡힌다는 인식이 있어 yarn을 그다지...
+    둘 다 사용법은 거의 비슷함, 명령어가 좀 다름
+    
+    package: module보다 더 큰 개념인데, 같은, 비슷한 개념이다.
+
+  5.2 package.json: 패키지 관리 파일
+    개발된 서비스에 필요한 패키지 정보를 저장
+    * 노드 프로젝트 시작전에 폴더 내부에 무조건 
+      package.json을 작성해야 한다
+
+    * package.json 작성하기
+      
+    npm에서 패키지의 사용은 자유롭지만 특허권 등의 여러가지 제한이 있을 수 있다.
+
+  5.3 package 설치하기
+    - npm install package명 [--save]
+      npm install express 

@@ -77,10 +77,5 @@ http
   			return res.end('NOT FOUND');
   	}catch(err){
   		console.error(err);
-  		res.writeHead(500);
-  		res.end(err.message);
   	}
-  })
-  .listen(8082, ()=>{
-  	console.log('8082번 포트에서 서버 대기중');
-  });
+  }
