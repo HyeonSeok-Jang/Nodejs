@@ -21,7 +21,7 @@
 
   5.3 package 설치하기
     - npm install package명 [--save] // 이전엔 --save하지않으면 dependencies에 저장이 안되었다. 그래서 있음
-      npm install express 
+      npm install express
       npm install morgan cookie-parser express-session
       npm install --save-dev nodemon
       npm install -D nodemon // 위와 같은 의미, 개발에 필요하다는 소리
