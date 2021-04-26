@@ -1,4 +1,5 @@
 const { odd, even } = require('./var');
+const testEventListener = require('./TestEventListener');
 const find = require('./func');
 
 const num = Math.random() * 9 + 1;
@@ -13,4 +14,4 @@ function findLength(str) {
 }
 
 console.log(find(num));
-console.log(findLength('yaho!!'));
+console.log(findLength('가나'));
