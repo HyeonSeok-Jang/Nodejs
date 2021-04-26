@@ -15,9 +15,10 @@
   "author": "deliyami",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": ">4.17.1",
+    "vuetify": "^2.4.11"
   },
   "devDependencies": {
-    "nodemon": "^2.0.7"
+    "nodemon": "~2.0.7"
   }
 }

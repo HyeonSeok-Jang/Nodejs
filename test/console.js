@@ -4,7 +4,13 @@ const boolean = true;
 const obj = {
   outside: {
     inside: {
-      key: 'value',
+      oneside: {
+        twoside: {
+          threeside: {
+            key: 'value',
+          },
+        },
+      },
     },
   },
 };
@@ -22,6 +28,8 @@ console.table([
   { name: 'live' },
 ]);
 
+console.dir(obj, { colors: true, depth: 4 });
+console.dir(obj, { colors: false, depth: 3 });
 console.dir(obj, { colors: true, depth: 2 });
 console.dir(obj, { colors: true, depth: 1 });
 
