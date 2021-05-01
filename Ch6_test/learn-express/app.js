@@ -6,6 +6,11 @@ const dotenv = require('dotenv');
 const path = require('path');
 
 dotenv.config();
+
+const indexRouter = require('./routes');
+const userRouter = require('./routes/user');
+const uploadsRouter = require('./upload');
+
 const app = express();
 app.set('port', process.env.PORT || 3000);
 /*
@@ -40,6 +45,41 @@ app.use(
     name: 'session-cookie',
   })
 );
+
+app.use('/', indexRouter);
+app.use('/user', userRouter);
+app.use('/uploads', uploadsRouter);
+
+const multer = require('multer');
+const fs = require('fs');
+
+try {
+  fs.readdirSync('uploads');
+} catch (err) {
+  console.error('uploads 폴더가 없어 폴더를 생성');
+  fs.mkdirSync('uploads');
+}
+
+const upload = multer({
+  storage: multer.diskStorage({
+    destination(req, file, done) {
+      done(null, 'uploads/');
+    },
+    filename(req, file, done) {
+      const ext = path.extname(file.originalname);
+      done(null, path.basename(file.originalname, ext) + Date.now() + ext);
+    },
+  }),
+  limits: { fileSize: 5 * 1024 * 1024 },
+});
+app.get('/upload', (req, res) => {
+  res.sendFile(path.join(__dirname, 'multipart.html'));
+});
+
+app.post('/upload', upload.fields([{ name: 'image1' }, { name: 'image2' }]), (req, res) => {
+  console.log(req.files, req.body);
+  res.send('ok');
+});
 // app.use(
 //   session({
 //     resave: false,
@@ -69,8 +109,9 @@ app.use(
     console.log(req.data, '2');
     next();
   },
-  (req, res) => {
+  (req, res, next) => {
     console.log(req.data, '3');
+    next();
   }
 );
 
@@ -101,7 +142,9 @@ app.use((err, req, res, next) => {
 // app.get('/index.html', (req, res) => {
 //   res.sendFile(path.join(__dirname, '/index.html'));
 // });
-
+app.use((req, res, next) => {
+  res.status(404).send('Not Found');
+});
 app.listen(app.get('port'), () => {
   console.log(app.get('port'), '번 포트에서 대기');
 });
