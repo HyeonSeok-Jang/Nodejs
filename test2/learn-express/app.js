@@ -6,6 +6,8 @@ const session = require('express-session');
 const dotenv = require('dotenv');
 const fs = require('fs');
 const multer = require('multer');
+const indexRouter = require('./router');
+const userRouter = require('./router/user');
 
 dotenv.config();
 const app = express();
@@ -45,6 +47,13 @@ app.use(
     name: 'session-cookie',
   })
 );
+
+app.use('/', indexRouter);
+app.use('/user', userRouter);
+
+app.use((req, res, next) => {
+  res.status(404).send('Not Found');
+});
 
 try {
   fs.readdirSync('uploads');
