@@ -6,12 +6,28 @@ const dotenv = require('dotenv');
 const path = require('path');
 const multer = require('multer');
 const fs = require('fs');
+const indexRouter = require('./routes'); // ./routes/index.js와 같음
+// 즉 생략할 수 있음
+// 아무것도 안적었을 경우 주로 index.js를 가르킴
+const userRouter = require('./routes/user');
+// index.js인 경우 경로설정시 생략가능
+// /user인 경우 이 변수를 불라 /user.js를 참조하겠다
+
+const nunjucks = require('nunjucks');
 
 dotenv.config(); // dot.env 파일 내용 읽어서 process.env에 설정
 // 주로 비밀번호
 
 const app = express();
 app.set('port', process.env.PORT || 3000);
+app.set('view engine', 'html');
+
+nunjucks.configure('views', {
+  // view파일이 저장되는 곳
+  express: app,
+  // express를 위한의 app객체를 향한 것
+  watch: true, //html 파일 변경시 출력도...
+});
 
 app.use((req, res, next) => {
   // next: 다음 미들웨어 실행시키기 위해 호출 next();
@@ -47,6 +63,13 @@ app.use(
     name: 'session-cookie',
   })
 );
+
+app.use('/', indexRouter);
+app.use('/user', userRouter);
+// /user인 경우 이 변수의 /user.js를 참조하겠다
+app.use((req, res, next) => {
+  res.status(404).send('Not Found');
+});
 
 try {
   fs.readdirSync('uploads');

@@ -30,19 +30,20 @@
     6.2.1 morgan
     log처리 관련
 
-    GET               /   xxx     x.xxx ms -     xxx
-    요청 메소드, 주소 / 응답코드  응답속도 - 응답 바이트
+    GET               /      xxx     x.xxx ms -     xxx
+    요청 메소드, (주소 /) 응답코드  응답속도 - 응답 바이트
 
     6.2.2 static
-    정적 resource에 대한 미들웨어
+    정적 resource(컴퓨터와 관련된 모든 것)에 대한 미들웨어
     실제 경로와 다르게 정해 보안에 도움...
-    
+    따로 설치 할 필요가 없다. 내장되어있어서...
+
     6.2.3 body-parser
     요청 본문처리 미들웨어
     json을 자동으로 처리하는것이
     req.body에 요청본문 처리한 객체를 설정해준다
-    multer: 요청본문의 환부파일 처리 미들웨어
-    따로 설치 할 필요가 없다. 내장되어있어서...
+    multer: 요청본문의 첨부파일 처리 미들웨어
+    
     
     req.queryString이 있음...
 
@@ -54,5 +55,76 @@
     세션처리용
     req.session
 
-    6.2.7
-    req.file이...
+    6.2.7 multer
+    req.file에 해당 정보가 사용되고 있다
+
+  6.3 Router객체로 라우팅 분리
+    app.js가 서비스가 많아짐에 따라 주소가, 요청이 길어진다
+    이에 따라 router로 분리처리하도록 한다.
+
+    - router는 미들웨어의 종류 중 하나
+
+    - app.js에서 app.get(), app.post() 이런것들이 라우터에 해당
+
+    * 라우터 파일 생성
+    1) routes/index.js
+    2) routes/user.js
+
+    * app.js에 라우터 설정
+    252페이지 참고
+
+    * 라우터 실행중에 next();가 아닌 next('route')로 넘겨버리면 라우터의
+    다음 콜백이 아닌 다른 라우터로 가버림... 즉, 다른 라우터를 스킵 할 수 있음
+
+    * 사용자로부터 주소로 요청 정보 전달: 정규 표현식
+    (Regular Expression)
+    - /user/:id  --> /user/idval
+      --> req.params.id, -- idval 값을 가지고 뭔갈 할 수 있음
+    - /user/:name
+      --> req.params.name
+    - /user/:id?key1=val1&key2=val2
+      --> req.params.id --> idval
+          req.query => {key1:val1, key2:val2}
+    - /user 라우터보다 앞에 작성해야 함.
+
+    - 동일한 url에 메소드 다른 경우
+      router.route('/abc')
+        .get((req,res)=>{
+          res.send('GET /abc');
+        })
+        .post((req,res=>{
+          res.send('POST /abc');
+        }))
+        .patch()
+        .delete()
+
+    6.5.2 넌적스
+      파이어폭스를 만든 작성한 모질라 재단이 아파치에서 사용함
+      html문법 기반
+      
+      1) 설치
+      npm i nunjucks
+      2) view 엔진 설치
+      
+      6.5.2.1 넌적스에서 변수 처리
+      html에서 {{변수명}}
+      서버에 있긴 하지만 엔진이 돌아서 브라우저에 보내줘야 할 것
+      --> 라우터에서 전달받아 사용함
+
+      html 자체에서 변수를 사용하려면
+      {% 문장 작성 %}
+      {% set 변수 = '값' %}
+      {% set node = 'Node.js' %}
+      --> 자체 변수를 사용
+
+      * escape < > ==> &lt; &gt; html ntt로 바꿈
+      escape를 사용하지 않으려면 {{변수명|safe}}
+
+      6.5.2.2 반복문
+      {% 문장 %}
+      * for~in  endfor작성
+
+      6.5.2.3 조건문
+      {% 문장 %}
+      * if ~ elif ~ else ~ endif
+      - elif: else if를 의미한다

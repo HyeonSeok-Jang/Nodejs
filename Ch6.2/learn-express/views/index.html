@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <!-- h1+p+button[type=submit]+input[type=text] -->
+    <h1>{{title}}</h1>
+    <!-- res.render()의 두번째 매개변수 -->
+    <p>들어봐</p>
+    {% set node = 'Node.js' %}
+    <button class="{{title}}" type="submit">전송</button>
+    <input type="text" placeholder="{{node}}연습" />
+    <p>{{node}}야!</p>
+
+    <p>{{'<strong>이스케이프</strong>'}}</p>
+    <p>{{'<strong>이스케이프</strong>'|safe}}</p>
+
+    <ul>
+      {% set enemy = ['저글링','히드라','드론','뮤탈'] %} {% for item in enemy %}
+      <li>{{loop.index}}번째 {{item}}</li>
+      {% endfor %}
+    </ul>
+    <ul>
+      {% set fruit = ['🥭','🍍','🍌','🍋','🍊','🍉','🍈','🍏','🍐'] %} {% for item in fruit %}
+      <li>{{loop.index}}번째 {{item}}</li>
+      {% endfor %}
+    </ul>
+    <!-- {% set isLoggedin = 1 %} -->
+    <!-- 서버에서 던질경우에 같이 넣어주면 됨... -->
+    <!-- {% set isLoggedin = true %} -->
+    <!--  -->
+    {% if isLoggedin %}
+    <div>로그인 되었습니다.</div>
+    {% else %}
+    <div>로그인이 필요합니다.</div>
+    {% endif %}
+  </body>
+</html>
