@@ -1,0 +1,42 @@
+* 설치 및 사용법
+1) MariaDB 설치
+
+2) MariaDB 서버 실행
+MARIADB의 커맨드 프롬프트로 MariaDB 설치된 bin 폴더에서 mysqld
+명령어 입력
+
+3) MariaDB 클라이언트
+mysql [-h localhost] -u root -p
+3-1) 클라이언트 중지
+mysql>
+MariaDB> exit
+
+4) 서버를 실제로 중지시키고 싶다.
+서비스에 들어가서 Device Association Service?가 아니라 MariaDB가 있을텐데?
+여튼 여긴 수동으로 했기 때문에...
+
+mysqladmin -u root -p shutdown
+
+    7.4.1 * DB 생성
+      MariaDB> CREATE SCHEMA `nodejs` DEFAULT CHARACTER SET utf8;
+      // 명령어는 대소문자 구분하지 않음.
+      * DB 사용 선언
+      MariaDB> use [table명];
+      MariaDB> 
+      MariaDB> 
+      MariaDB> 
+      MariaDB> 
+      MariaDB> 
+      * table 생성
+      MariaDB [nodejs]> CREATE TABLE nodejs.users (
+    -> id INT NOT NULL AUTO_INCREMENT,
+    -> name VARCHAR(20) NOT NULL,
+    -> age INT UNSIGNED NOT NULL,
+    -> married TINYINT NOT NULL,
+    -> comment TEXT NULL,
+    -> create_at DATETIME NOT NULL DEFAULT now(),
+    -> PRIMARY KEY(id),
+    -> UNIQUE INDEX name_UNIQUE (name ASC))
+    -> COMMENT = '사용자 정보'
+    -> DEFAULT CHARACTER SET = utf8
+    -> ENGINE = InnoDB;

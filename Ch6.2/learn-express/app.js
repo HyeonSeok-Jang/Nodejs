@@ -41,6 +41,8 @@ app.use(morgan('dev'));
 app.use('/', express.static(path.join(__dirname, 'public/')));
 // /가 들어오면 뒤에 실행... 현재 폴더에 public폴더를 갖다붙임. public에 이미지 따위가 있으면...
 // 이미지 주소를 줄 때는 https://localhost:3000/public/슬라임_1_normal.png이런식으로... 주면 가져다 쓸 수 있음
+// 경로가 없으면 여기로 지정됨.
+//
 
 /* body-parser */
 app.use(express.json());

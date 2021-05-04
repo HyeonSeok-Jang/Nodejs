@@ -6,5 +6,8 @@ const router = express.Router();
 router.get('/', (req, res) => {
   res.send('Hello, User');
 });
+router.get('/else/', (req, res) => {
+  res.send('Hello, Else User');
+});
 
 module.exports = router;

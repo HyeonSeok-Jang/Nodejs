@@ -13,8 +13,15 @@ const router = express.Router();
 // });
 
 router.get('/', (req, res) => {
-  res.render('index', { title: '익스프레스', isLoggedin: true });
+  // res.render('index', { title: '익스프레스', isLoggedin: true });
   // views폴더에 index.html을 찾아서 보냄
+  res.render('body', {});
+});
+
+router.get('/about', (req, res) => {
+  // res.render('index', { title: '익스프레스', isLoggedin: true });
+  // views폴더에 index.html을 찾아서 보냄
+  res.render('about', {});
 });
 
 router
