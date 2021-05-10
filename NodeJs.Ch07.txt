@@ -1,3 +1,75 @@
+<포트사용가능 확인: netstat -ano>
+* 설치 및 서버 실행
+1) MariaDB 설치
+
+<환경 변수 확인>
+프롬프트에서
+    set "PATH=C:\Program Files\MariaDB 10.5\bin;%PATH%;"
+실행하거나
+시스템 환경 변수 편집
+  Path에
+   C:\Program Files\MariaDB 10.5\bin
+추가 후 프롬프트 재실행
+
+2) MariaDB 서버 실행
+mysqld
+(Path 설정 안되어 있으면
+ MariaDB 설치된 폴더
+    C:\Program Files\MariaDB 10.5\bin
+로 이동후 mysqld 실행)
+
+3) MariaDB 클라이언트 실행
+mysql -u root -p [-h localhost]
+(Path 설정 안되어 있으면
+ MariaDB 설치된 폴더
+    D:\MariaDB 10.5\bin
+로 이동후 mysql -u root -p 실행)
+
+mysql -u root -p [-P 포트번호]
+
+3-1) 클라이언트 중지
+mysql>
+MariaDB> exit
+
+4) 서버를 중지
+mysqladmin -u root -p [-P 포트번호] shutdown
+(Path 설정 안되어 있으면
+ MariaDB 설치된 폴더
+    D:\MariaDB 10.5\bin
+로 이동후 mysqladmin -u root -p shutdown 실행)
+
+- MariaDB 설정파일: D:\MariaDB 10.5\data\my.ini
+  내용 확인
+
+* DB 생성 (7.4.1)
+MariaDB> create SCHEMA `nodejs` DEFAULT CHARACTER SET utf8;
+- 생성된 DB 확인
+MariaDB> show databases;
+
+* DB사용 선언
+MariaDB> use nodejs;
+
+* 테이블 생성
+MariaDB> CREATE TABLE IF NOT EXISTS nodejs.users(
+  id INT NOT NULL AUTO_INCREMENT,
+  name VARCHAR(20) NOT NULL,
+  age INT UNSIGNED NOT NULL,
+  married TINYINT NOT NULL,
+  comment TEXT NULL,
+  created_at DATETIME NOT NULL DEFAULT now(),
+  PRIMARY KEY(id),
+  UNIQUE INDEX name_UNIQUE (name ASC)
+) COMMENT ='사용자 정보'
+DEFAULT CHARSET=utf8
+ENGINE=InnoDB;
+
+- 생성된 테이블 확인
+MariaDB> show tables;
+
+
+
+
+
 * 설치 및 사용법
 1) MariaDB 설치
 
@@ -40,3 +112,54 @@ mysqladmin -u root -p shutdown
     -> COMMENT = '사용자 정보'
     -> DEFAULT CHARACTER SET = utf8
     -> ENGINE = InnoDB;
+
+    * 테이블 삭제
+    DROP TABLE 테이블명;
+    DROP TABLE users;
+    DROP은 db도 없앨수있다.
+
+    7.5 CRUD 작업하기
+    CREATE(생성): CREATE, INSERT
+    READ(읽기): SERECT
+    UPDATE(수정): UPDATE
+    DELETE(삭제): DELETE
+
+    7.5.1 생성
+    * INSERT INTO 테이블명(값 유형) VALUES (값);
+
+    7.5.2 조회, 읽기
+    * SELECT
+
+    7.5.3 수정
+    * UPDATE 테이블명 SET 필드명 = '바꿀내용' WHERE조건
+
+    7.6 시퀄라이드 사용하기
+    ORM(Object Relational Mapping): DB 콘텐츠를 객체로 사용할 수 있게 해주는 도구
+    ==> 가장 유명한게 Sequelize
+
+    JS 객체와 DB의 릴레이션을 매핑해주는 도구
+    JS 구문을 자동으로 DB SQL로 바꿔줌
+
+    * Sequelize Test
+    1) npm init 파일 생성
+    2) 패키지 설치
+    npm i express morgan nunjucks sequelize sequelize-cli mysql2
+    npm i -D nodemon
+
+    3) sequelize 설치
+    npx sequelize init
+    참고, express-cli 생성기
+
+    4) express 관련 폴더 생성
+    views, public, routes
+
+    5) models/index.js 수정
+    ==> sequelize 설정
+    6) app.js 수정(p.317~318)
+
+    7) config.json 파일 수정(p.318)
+    8) 서버 실행
+    npm start
+    브라우저 실행
+    7.6.1 MySQL(MariaDB)연결
+    DB는 sync를 기본으로 함
