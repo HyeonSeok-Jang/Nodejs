@@ -1,0 +1,37 @@
+9. nodebird
+  async/await에 익숙하다는 것에 전제
+  Promise-->async/await
+
+  9장에선 로그인 기능
+  이미지 업로드 기능
+  게시글 작성
+  해시태그 검색
+  팔로잉 기능(언팔로잉은 없다.)
+
+  * 작업환경 구축
+  1) express-generator이용
+  2) 직접 구축해보기
+
+  * 직접구축해보기
+  1) 프로젝트 폴더 생성
+    command> mkdir nodebird
+  2) package 생성
+  3) 패키지 설치
+  npm i sequelize mysql2 sequelize-cli
+  4) DB 관련 설정 --> config, models, migrations...등이 생성
+  npx sequelize init
+  
+  5) 각종 폴더 만들기 p.398
+  mkdir 
+  6) front controller역할하는 app.js파일 생성
+  7) .env(환경설정파일) 생성
+  8) express와 미들웨어 설치
+      npm i express cookie-parser express-session morgan multer nunjucks
+      npm i dotenv<---도구
+      npm i -D nodemon
+
+  9) 소스 코딩
+    1. app.js p.399
+    2. .env p.400
+    3. routes/page.js p.400
+    4. views 폴더에 html 소스 작성 p.401~p.409

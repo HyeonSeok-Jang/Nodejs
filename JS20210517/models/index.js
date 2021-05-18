@@ -36,35 +36,27 @@
 
 // module.exports = db;
 
+const fs = require('fs');
+const path = require('path');
 const Sequelize = require('sequelize');
-const User = require('./user'); // 모델 사용
-const Comment = require('./comment');
-
+const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.json')[env];
 const db = {};
+const User = require('./user');
+const Comment = require('./comment');
 
 const sequelize = new Sequelize(config.database, config.username, config.password, config);
-db.sequelize = sequelize;
 
+db.sequelize = sequelize;
+db.Sequelize = Sequelize;
 db.User = User;
 db.Comment = Comment;
-// User와 Comment객체 가져오기
 
 User.init(sequelize);
 Comment.init(sequelize);
 
-// sequelize는 DB와 연결
-// 이것으로 User객체와 연결
-// table과 모델이 연결됨
-
 User.associate(db);
 Comment.associate(db);
-// sequelize만 넘기면 안되는 이유가
-// table끼리 연결하고 등등
-// table이 다 있어야 연결이 되니까
-// 하나만이 아닌 다 가지고있는 db를 넘겨줌
-
-// 예를들어 User에선 Comment테이블 모르니까 다 가진db넘겨줌...
 
 module.exports = db;
