@@ -64,3 +64,40 @@
   5) 테이블 생성후 Model 연결
       콘솔에서 sequelize DB:create ---> DB생성
       app.js 수정 p.417
+
+  9.3 passport 모듈로 로그인 구현
+  * local 로그인 기능 구현
+  1) passport 모듈 설치
+    npm i passport passport-local passport-kakao bcrypt
+  2) app.js수정: passport 미들웨어 사용하기 때문
+  p.419~p.420
+  3) passport/index.js를 구현
+
+    - 로그인시 실행 과정
+    p.422
+    1. 라우터를 통해 로그인 요청이 들어옴(incomming)
+    2. 라우터에서 passport.authenticate() 호출
+    3. 로그인 전략을 수행
+    4. 로그인 성공시에 user객체와 req.login()호출
+    5. req.login()에서 passport.serializeUser()호출
+    6. req.session에 user.id가 저장됨
+    7. 로그인 완료
+
+    - 로그인 후 매번 요청시 실행과정
+    1. 요청이 들어옴
+    2. 라우터 요청이 처리 의뢰가 되기 전 passport.session()미들웨어가 실행
+        passport.deserializeUser()을 호출
+    3. req.session객체에 저장된 user의 아이디로 DB사용자 조회
+    4. 조회된 user 정보를 req.user에 저장
+    5. 라우터에서 req.user정보를 이용할 수 있음
+    
+  9.3.1 로컬 로그인 구현
+  - 로컬 전략 구하기전에 사용자 정의 미들웨어 구현
+  4) 미들웨어 구현: routes/middlewares.js
+
+  5) routes/page.js 수정: p.423
+  6) 로그인 과정 구현
+      회원가입, 로그인, 로그아웃 라우터 구현: routes/auth.js
+      로그인 전략 구현
+        passport
+  * 카카오 로그인 구현

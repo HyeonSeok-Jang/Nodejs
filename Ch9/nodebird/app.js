@@ -5,12 +5,17 @@ const path = require('path');
 const session = require('express-session');
 const nunjucks = require('nunjucks');
 const dotenv = require('dotenv');
+const passport = require('passport');
 
 dotenv.config(); // .env의 내용을 읽어서 node 환경 변수 값 설정
 const pageRouter = require('./routes/page');
+const authRouter = require('./routes/auth');
+
 const { sequelize } = require('./models');
+const passportConfig = require('./passport');
 
 const app = express(); // 서버 객체 생성
+passportConfig();
 app.set('port', process.env.PORT || 8000);
 app.set('view engine', 'html'); // 넌적스 설정
 nunjucks.configure('views', {
@@ -48,14 +53,21 @@ app.use(
     },
   })
 );
-
 // 사용자 정의 미들웨어 구현
 // 미들웨어 특징 (req, res, next)로 이루어짐
 // 맨 밑에 next를 넣어줘야 다음으로 넘어가고
 // 넣지않으면 자기자신에서 돌게되어 넘어가지 않음
 // 콜백형식으로 하면 됨
+
+app.use(passport.initialize());
+// req에 passport모듈관련 설정 정보 저장
+app.use(passport.session());
+// express-session 미들웨어보다 뒤에 작성
+// req.session이라는 객체를 생성 한 뒤에 실행
+
 app.use('/', pageRouter); // 미들웨어 설정, 경로설정
 // 라우터는 미들웨어중 하나
+app.use('/auth', authRouter);
 
 app.use((req, res, next) => {
   const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
