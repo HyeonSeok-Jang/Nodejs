@@ -8,22 +8,37 @@ const dotenv = require('dotenv');
 
 dotenv.config(); // .env의 내용을 읽어서 node 환경 변수 값 설정
 const pageRouter = require('./routes/page');
+const { sequelize } = require('./models');
 
-const app = express();
+const app = express(); // 서버 객체 생성
 app.set('port', process.env.PORT || 8000);
-app.set('view engine', 'html');
+app.set('view engine', 'html'); // 넌적스 설정
 nunjucks.configure('views', {
+  // 넌적스가 사용할 views 폴더 뷰 내용 작업 폴더
   express: app,
   watch: true,
 });
+sequelize
+  .sync({ force: false })
+  .then(() => {
+    console.log('데이터베이스 연결 성공');
+  })
+  .catch((err) => {
+    console.error(err);
+  });
 
-app.use(morgan('dev'));
+// 미들웨어
+app.use(morgan('dev')); // LOG 관련
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+// 정적 리소스(html, js, css, jpg, png...)에 대한 설정
+// 폴더를 public 설정
+app.use(express.json()); // json처리, body-parser
+app.use(express.urlencoded({ extended: false })); // body-parser 처리
 app.use(cookieParser(process.env.COOKIE_SECRET));
+// cookie 처리, cookie를 암호화 하기위해 사용하는 키 값을 설정
 app.use(
   session({
+    // express-session 패키지 설정
     resave: false,
     saveUninitialized: false,
     secret: process.env.COOKIE_SECRET,
@@ -50,6 +65,7 @@ app.use((req, res, next) => {
 
 app.use((err, req, res, next) => {
   // 에러처리 미들웨어
+  // 다른 처리랑 다르게 매개변수 err가 하나 더 있음
   // 보통은 에러처리 미들웨어가 가장 맨뒤에 옴
   res.locals.message = err.message;
   res.locals.error = process.env.NODE_ENV !== 'production' ? err : {};

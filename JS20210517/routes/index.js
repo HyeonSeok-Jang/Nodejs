@@ -1,10 +1,16 @@
 const express = require('express');
+const User = require('../models/user');
 
 const router = express.Router();
 
-router.get('/', function (req, res, next) {
-  // res.send('Hello, Express');
-  res.render('index', { title: 'Express' });
+router.get('/', async (req, res, next) => {
+  try {
+    const users = await User.findAll();
+    res.render('sequelize', { users });
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
 });
 
 router.get('/asdf', (req, res) => {

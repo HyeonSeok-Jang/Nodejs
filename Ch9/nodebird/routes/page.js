@@ -3,7 +3,9 @@ const express = require('express');
 const router = express.Router();
 
 router.use((req, res, next) => {
-  res.locals.user = null;
+  // 라우터에서 사용하는 미들웨서 정의
+  // 사용자가 정의하는 미들웨어
+  res.locals.user = null; // res.locals --> 넌적스에서 사용됨
   res.locals.followerCount = 0;
   res.locals.followingCount = 0;
   res.locals.followerIdList = [];
@@ -23,6 +25,8 @@ router.get('/join', (req, res) => {
 router.get('/', (req, res, next) => {
   const twits = [];
   res.render('main', {
+    // 넌적스가 사용하겠다는 views폴더에 main.html 사용해
+    // 화면 만들기
     title: 'NodeBird',
     twits,
   });
