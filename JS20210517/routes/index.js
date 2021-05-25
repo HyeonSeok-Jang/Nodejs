@@ -13,7 +13,4 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-router.get('/asdf', (req, res) => {
-  res.render('second', { title: 'Express' });
-});
 module.exports = router;
