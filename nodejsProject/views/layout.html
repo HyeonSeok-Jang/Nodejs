@@ -11,15 +11,18 @@
     <div class="container">
       <div class="profile-wrap">
         <div class="profile">
-          {% if user and user.id %}
+          {% if user and user.id %} {% if user.SM %}
+          <div class="user-name">운영자 {{user.nick}} 계정입니다</div>
+          {% else %}
           <div class="user-name">{{'안녕하세요! ' + user.nick + '님'}}</div>
+          {% endif %}
           <input id="my-id" type="hidden" value="{{user.id}}" />
           <a id="logout" href="/auth/logout" class="btn">로그아웃</a>
           {% else %}
           <form id="login-form" action="/auth/login" method="post">
             <div class="input-group">
-              <label for="email">이메일</label>
-              <input id="email" type="email" name="email" required autofocus />
+              <label for="userid">ID</label>
+              <input id="userid" type="id" name="userid" required autofocus />
             </div>
             <div class="input-group">
               <label for="password">비밀번호</label>
@@ -35,6 +38,7 @@
         <a id="selfbtn" href="/selfintro" class="btn">자기소개</a>
         <a id="japanbtn" href="/japanintro" class="btn">test2</a>
         <a id="qnabtn" href="/auth/qna" class="btn">test2</a>
+        <!-- <a id="qnabtn" href="/qna" class="btn">test2</a> -->
       </div>
       {% block content %} {% endblock %}
       <footer>

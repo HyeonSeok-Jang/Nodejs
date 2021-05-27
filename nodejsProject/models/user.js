@@ -4,7 +4,7 @@ module.exports = class User extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        email: {
+        userid: {
           type: Sequelize.STRING(40),
           allowNull: true,
           unique: true,
@@ -17,10 +17,10 @@ module.exports = class User extends Sequelize.Model {
           type: Sequelize.STRING(100),
           allowNull: true,
         },
-        provider: {
-          type: Sequelize.STRING(10),
+        SM: {
+          type: Sequelize.TINYINT,
           allowNull: false,
-          defaultValue: 'local',
+          defaultValue: false,
         },
       },
       {

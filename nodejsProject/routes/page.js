@@ -24,15 +24,15 @@ router.get('/japanintro', (req, res) => {
   res.render('japanintro', { title: 'Japan Introduce - NodeProject' });
 });
 
-// router.get('/', (req, res, next) => {
-//   const qnas = [];
-//   res.render('main', {
-//     title: 'NodeProject',
-//     qnas,
-//   });
-// });
+router.get('/', (req, res, next) => {
+  const qnas = [];
+  res.render('main', {
+    title: 'NodeProject',
+    qnas,
+  });
+});
 
-router.get('/', async (req, res, next) => {
+router.get('/auth/qna', isLoggedIn, async (req, res, next) => {
   try {
     const posts = await Post.findAll({
       include: {
@@ -41,8 +41,8 @@ router.get('/', async (req, res, next) => {
       },
       order: [['createdAt', 'DESC']],
     });
-    res.render('main', {
-      title: 'NodeProject',
+    res.render('qna', {
+      title: 'QnA - NodeProject',
       qnas: posts,
     });
   } catch (err) {
