@@ -14,7 +14,6 @@
           {% if user and user.id %}
           <div class="user-name">{{'안녕하세요! ' + user.nick + '님'}}</div>
           <input id="my-id" type="hidden" value="{{user.id}}" />
-          <a id="my-profile" href="/profile" class="btn">내 프로필</a>
           <a id="logout" href="/auth/logout" class="btn">로그아웃</a>
           {% else %}
           <form id="login-form" action="/auth/login" method="post">
@@ -29,16 +28,22 @@
             <a id="join" href="/join" class="btn">회원가입</a>
             <button id="login" type="submit" class="btn">로그인</button>
           </form>
+
           {% endif %}
         </div>
-        <footer>
-          Made by&nbsp;
-          <a href="https://github.com/deliyami" target="_blank">deliyami</a>
-        </footer>
+
+        <a id="selfbtn" href="/selfintro" class="btn">자기소개</a>
+        <a id="japanbtn" href="/japanintro" class="btn">test2</a>
+        <a id="qnabtn" href="/auth/qna" class="btn">test2</a>
       </div>
       {% block content %} {% endblock %}
+      <footer>
+        Made by&nbsp;
+        <a href="https://github.com/deliyami" target="_blank">deliyami</a>
+      </footer>
     </div>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="/sequelize.js"></script>
     <script>
       window.onload = () => {
         if (new URL(location.href).searchParams.get('loginError')) {

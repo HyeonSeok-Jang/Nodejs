@@ -2,10 +2,7 @@ exports.isLoggedIn = (req, res, next) => {
   if (req.isAuthenticated()) {
     next();
   } else {
-    const error = new Error(`로그인 필요`);
-    error.status = 403;
-    // res.status(403).send('로그인 필요');
-    next(error);
+    res.status(403).send('로그인 필요');
   }
 };
 
