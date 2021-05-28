@@ -17,3 +17,14 @@ exports.isNotLoggedIn = (req, res, next) => {
     res.redirect(`/?error=${message}`);
   }
 };
+
+exports.isServerMaster = (req, res, next) => {
+  if (req.sm == 1) {
+    next();
+  } else {
+    const error = new Error(`권한 없음`);
+    error.status = 403;
+    // res.status(403).send('로그인 필요');
+    next(error);
+  }
+};
