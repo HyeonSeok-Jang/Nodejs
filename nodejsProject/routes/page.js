@@ -16,6 +16,10 @@ router.get('/join', isNotLoggedIn, (req, res) => {
   res.render('join', { title: '회원가입 - NodeProject' });
 });
 
+router.get('/login', isNotLoggedIn, (req, res) => {
+  res.render('login', { title: '로그인 - NodeProject' });
+});
+
 router.get('/selfintro', (req, res) => {
   res.render('selfintro', { title: 'Self Introduce - NodeProject' });
 });
