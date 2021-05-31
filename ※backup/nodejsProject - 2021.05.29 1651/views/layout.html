@@ -10,7 +10,7 @@
   </head>
   <body>
     <div class="container">
-      <div class="layout-wrap">
+      <class class="layout-wrap">
         <div class="profile">
           {% if user and user.id %} 
             {% if user.SM %}
@@ -42,87 +42,85 @@
           {% else %}
             <button id="mainbtn" href="/auth/qna" class="btn btn-outline-primary" disabled>QnA</button> 
           {% endif %} -->
-          <a id="mainbtn" href="/" class="btn btn-outline-primary">홈</a>
-          {% if user and user.id %}
-            <a id="mainbtn" href="/auth/logout" class="btn btn-outline-primary">로그아웃</a>
-          {% else %}
-            <a id="mainbtn" href="/login" class="btn btn-outline-primary">로그인</a>
-            <a id="mainbtn" href="/join" class="btn btn-outline-primary">회원가입</a>
-          {% endif %}
+        </div>
+
+        <div class="tab">
+          <figure class="snip1445">
+            <img src="/hsj - cut.png" alt="자기소개" />
+            <figcaption>
+              <div>
+                <h2>장현석</h2>
+                <h4>자기소개</h4>
+              </div>
+            </figcaption>
+            <a href="/selfintro"></a>
+          </figure>
+  
+          <figure class="snip1445">
+            <img src="/japan.jpg" alt="일본 현지학기제" />
+            <figcaption>
+              <div>
+                <h2>일본</h2>
+                <h4>현지학기제 소개</h4>
+              </div>
+            </figcaption>
+            <a href="/japanintro"></a>
+          </figure>
+  
+          <figure class="snip1445">
+            {% if user and user.id %}
+              <img src="/hsj - cut.png" alt="QnA" />
+            {% else %}
+              <img src="/hsj - hit - cut.png" alt="QnA" />
+            {% endif %}
+            <figcaption>
+              <div>
+                <h2>QnA</h2>
+                {% if user and user.id %}
+                  <h4>질문소</h4>
+                {% else %}
+                  <h4>로그인이 필요합니다</h4>
+                {% endif %}
+              </div>
+            </figcaption>
+            {% if user and user.id %}
+              <a href="/auth/qna"></a>
+            {% else %}
+              <a href="#" disabled></a> 
+            {% endif %}
+          </figure>
         </div>
         <div class="content">
-          <div class="tab">
-            <figure class="snip1445">
-              <img src="/hsj - cut.png" alt="자기소개" />
-              <figcaption>
-                <div>
-                  <h2>장현석</h2>
-                  <h4>자기소개</h4>
-                </div>
-              </figcaption>
-              <a href="/selfintro"></a>
-            </figure>
-    
-            <figure class="snip1445">
-              <img src="/japan.jpg" alt="일본 현지학기제" />
-              <figcaption>
-                <div>
-                  <h2>일본</h2>
-                  <h4>현지학기제 소개</h4>
-                </div>
-              </figcaption>
-              <a href="/japanintro"></a>
-            </figure>
-    
-            <figure class="snip1445">
-              {% if user and user.id %}
-                <img src="/hsj - cut.png" alt="QnA" />
-              {% else %}
-                <img src="/hsj - hit - cut.png" alt="QnA" />
-              {% endif %}
-              <figcaption>
-                <div>
-                  <h2>QnA</h2>
-                  {% if user and user.id %}
-                    <h4>질문소</h4>
-                  {% else %}
-                    <h4>로그인이 필요합니다</h4>
-                  {% endif %}
-                </div>
-              </figcaption>
-              {% if user and user.id %}
-                <a href="/auth/qna"></a>
-              {% else %}
-                <a href="#" disabled></a> 
-              {% endif %}
-            </figure>
-          </div>
-          <div class="block">
-            {% block content %} {% endblock %}
-          </div>
+          {% block content %} {% endblock %}
         </div>
-      </div>
+      </class>
+      
+      
       <footer>
-        <label id="test">테스트용</label>
         <!-- Made by&nbsp; -->
-        
+        <a id="mainbtn" href="/" class="btn btn-outline-primary">홈</a>
+        {% if user and user.id %}
+          <a id="logout" href="/auth/logout" class="btn btn-outline-primary">로그아웃</a>
+        {% else %}
+          <a id="mainbtn" href="/login" class="btn btn-outline-primary">로그인</a>
+          <a id="mainbtn" href="/join" class="btn btn-outline-primary">회원가입</a>
+        {% endif %}
         
         <a href="https://github.com/deliyami" target="blank">
           <img src="\hsj.png" height="100" width="100" alt="이미지를 누르면 장현석의 github로 연결됩니다.">         
         </a>
-  
+
         <a href="https://www.yju.ac.kr/" target="blank">
           <img src="\yju_logo.png" height="111" width="500" alt="이미지를 누르면 영진전문대학교로 연결됩니다.">
         <a>
           
-  
+
           <!-- <div class="input-group mb-3">
             <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2">
             <span class="input-group-text" id="basic-addon2">@example.com</span>
           </div> -->
       </footer>
     </div>
-    
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="/sequelize.js"></script>
     <script>

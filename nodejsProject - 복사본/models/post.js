@@ -24,7 +24,5 @@ module.exports = class Post extends Sequelize.Model {
 
   static associate(db) {
     db.Post.belongsTo(db.User);
-    db.Post.hasOne(db.Post, { foreignKey: 'asknum', sourceKey: 'id' });
-    db.Post.belongsTo(db.Post, { foreignKey: 'asknum', targetKey: 'id' });
   }
 };

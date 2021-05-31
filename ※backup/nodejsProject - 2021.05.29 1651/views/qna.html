@@ -12,7 +12,7 @@
       </div>
     </form>
   </div>
-
+  {% endif %}
   <div class="qnas">
     {% for qna in qnas %}
     <div class="qna">
@@ -23,18 +23,12 @@
       <div class="qna-content">{{qna.content}}</div>
       {% if user.SM %}
       <form id="" action="" method="">
-        <button id="btn" type="submit" class="btn btn-outline-primary">수정</button>
-      </form>
-      <form id="" action="del" method="del">
         <button id="btn" type="submit" class="btn btn-outline-primary">삭제</button>
       </form>
       {% endif %}
     </div>
     {% endfor %}
   </div>
-  {% else %}
-  <div>로그인 하셔야 합니다</div>
-  {% endif %}
 </div>
 {% endblock %} {% block script %}
 <script>
@@ -46,6 +40,23 @@
     if (e.which === 13 && numberOfLines >= maxRows) {
       return false;
     }
+  }
+  if (document.getElementById('img')) {
+    document.getElementById('img').addEventListener('change', function (e) {
+      const formData = new FormData();
+      console.log(this, this.files);
+      formData.append('img', this.files[0]);
+      axios
+        .post('/post/img', formData)
+        .then((res) => {
+          document.getElementById('img-url').value = res.data.url;
+          document.getElementById('img-preview').src = res.data.url;
+          document.getElementById('img-preview').style.display = 'inline';
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    });
   }
 </script>
 {% endblock %}

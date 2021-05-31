@@ -1,0 +1,15 @@
+{% extends 'layout.html' %} {% block content %}
+<form id="login-form" action="/auth/login" method="post">
+  <div class="input-group">
+    <label class="input-group-text" for="userid">ID</label>
+    <input class="form-control" id="userid" type="id" name="userid" required autofocus />
+  </div>
+  <div class="input-group">
+    <label class="input-group-text" for="password">비밀번호</label>
+    <input class="form-control" id="password" type="password" name="password" required />
+  </div>
+  <button class="btn btn-outline-primary" id="login" type="submit" class="btn btn-outline-primary">로그인</button>
+</form>
+{% endblock %} {% block script %}
+<script></script>
+{% endblock %}
