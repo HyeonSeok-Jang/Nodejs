@@ -38,6 +38,7 @@ router.post('/login', isNotLoggedIn, (req, res, next) => {
     if (!user) {
       return res.redirect(`/?loginError=${info.message}`);
     }
+    console.log('auth 지나가는중!');
     return req.login(user, (loginError) => {
       // passport.serializeUser()메서드가 호출
       if (loginError) {

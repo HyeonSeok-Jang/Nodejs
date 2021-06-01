@@ -2,7 +2,7 @@ const express = require('express');
 const passport = require('passport');
 const bcrypt = require('bcrypt');
 const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
-const User = require('../models/user');
+const { Post, User } = require('../models');
 const { transformAuthInfo } = require('passport');
 
 const router = express.Router();
@@ -12,7 +12,6 @@ router.post('/join', isNotLoggedIn, async (req, res, next) => {
   const id = userid.trim().replace(' ', '');
   const ni = nick.trim().replace(' ', '');
   const pw = password.trim().replace(' ', '');
-  console.log(req.body);
 
   try {
     if (id == null || ni == null || pw == null || id == '' || ni == '' || pw == '') {
@@ -54,7 +53,7 @@ router.post('/login', isNotLoggedIn, (req, res, next) => {
       }
       return res.redirect('/');
     });
-  })(req, res, next); // 미들웨어 내의 미들웨어에는 (req, res, next)를 붙입니다.
+  })(req, res, next);
 });
 
 router.get('/logout', isLoggedIn, (req, res) => {

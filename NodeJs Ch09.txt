@@ -110,3 +110,38 @@
       passport/kakaoStrategy.js
     8) auth.js에서 kako로그인 처리 라우터 구현
     9) app.js에 라우터 등록
+  9.4 multer를 이용해 파일 업로드와 게시글 작성
+  * 업로드 과정
+  1) input태그로 이미지 파일 선택
+  2) 브라우저는 업로드를 실행
+  3) multer를 이용 업로드된 이미지 처리
+      DB에 이미지 정보를 저장하지 않고
+      이미지 정보는 HDD의 특정 폴더에 저장
+  4) 업로드된 이미지의 주소를 브라우저에 알림
+      img태그로 이미지를 화면에 표시
+
+  13) req.user목록 변경
+  팔로워 수, 팔로잉 수 등 정보를 추가하기 위해
+  passport/index.js deserializeUser() 수정
+  441페이지
+
+  442페이지
+  캐싱
+  deserializeUser()에 정보
+  user의 정보
+    - 로그인 한 사람의 정보
+    - 팔로워, 팔로잉 정보
+
+  redis를 이용하여 캐싱처리
+
+
+
+
+
+  PWA --> 하이브리드 아이오닉, 코르도바
+
+  Flutter--Dart언어
+
+  일렉트론
+
+  IoT
