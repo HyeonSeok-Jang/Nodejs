@@ -13,8 +13,11 @@ exports.isNotLoggedIn = (req, res, next) => {
   if (!req.isAuthenticated()) {
     next();
   } else {
-    const message = encodeURIComponent('로그인한 상태입니다.');
-    res.redirect(`/?error=${message}`);
+    const error = new Error(`이미 로그인 한 상태`);
+    error.status = 403;
+    next(error);
+    // const message = encodeURIComponent('로그인한 상태입니다.');
+    // res.redirect(`/?error=${message}`);
   }
 };
 

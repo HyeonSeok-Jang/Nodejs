@@ -1,9 +1,9 @@
 const express = require('express');
 const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
 const Sequelize = require('sequelize');
-const { Post, User } = require('../models');
+const { Post, User, Comment } = require('../models');
 const db = require('../models/index');
-
+const Op = Sequelize.Op;
 const router = express.Router();
 
 router.use((req, res, next) => {
@@ -44,6 +44,17 @@ router.get('/japanintro', (req, res) => {
   });
 });
 
+router.get('/write', (req, res) => {
+  const page = req.query.page;
+  console.log(page);
+  res.render('write', {
+    title: 'Write - NodeProject',
+    page: page,
+    signin: true,
+    signup: true,
+  });
+});
+
 router.get('/', (req, res, next) => {
   req.body.login = 'a';
   const qnas = [];
@@ -63,23 +74,105 @@ router.get('/qna', isLoggedIn, async (req, res, next) => {
     } catch (err) {
       console.log('처음 들어온 것');
     }
+
+    // const qnas = await Post.findAll({
+    //   // as: 'Post',
+    //   attributes: ['id', 'title', 'content', 'createdAt'],
+    //   include: [
+    //     {
+    //       model: Comment,
+    //       attributes: ['asknum', 'content'],
+    //     },
+    //     {
+    //       model: User,
+    //       // attributes: ['id', 'nick', Sequelize.literal('ROW_NUMBER() OVER(ORDER BY id ASC)', 'rownum')],
+    //       attributes: ['id', 'nick'],
+    //     },
+    //   ],
+    //   // where: { asknum: null },
+    //   order: [['createdAt', 'DESC']],
+    //   offset: page * 5,
+    //   limit: 5,
+    // });
+
     const qnas = await Post.findAll({
-      attributes: ['id', 'createdAt', 'content'],
-      include: {
-        model: User,
-        // attributes: ['id', 'nick', Sequelize.literal('ROW_NUMBER() OVER(ORDER BY id ASC)', 'rownum')],
-        attributes: ['id', 'nick'],
-      },
+      // as: 'Post',
+      attributes: ['id', 'title', 'content', 'createdAt'],
+      include: [
+        {
+          model: Comment,
+          attributes: ['asknum', 'content'],
+        },
+        {
+          model: User,
+          // attributes: ['id', 'nick', Sequelize.literal('ROW_NUMBER() OVER(ORDER BY id ASC)', 'rownum')],
+          attributes: ['id', 'nick'],
+        },
+      ],
+      // where: { asknum: null },
       order: [['createdAt', 'DESC']],
       offset: page * 5,
       limit: 5,
     });
+
+    // const ans = await Post.findAll({
+    //   attributes: ['id', 'createdAt', 'content'],
+    //   include: {
+    //     model: User,
+    //     // attributes: ['id', 'nick', Sequelize.literal('ROW_NUMBER() OVER(ORDER BY id ASC)', 'rownum')],
+    //     attributes: ['id', 'nick'],
+    //   },
+    //   where: { asknum: { [Op.not]: null } },
+    //   order: [['createdAt', 'DESC']],
+    // });
+
+    // console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+    // console.log(qnas);
     const end = (await Post.findAndCountAll({})).count / 5;
     const count = [];
     for (let j = 0; j < end; j++) count[j] = j + 1;
     res.render('qna', {
+      title: 'QnA - NodeProject',
       qnas: qnas,
+      // answer: ans,
       count: count,
+      page: page + 1,
+      signin: true,
+      signup: true,
+    });
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
+
+router.get('/content', isLoggedIn, async (req, res, next) => {
+  try {
+    const page = req.query.page;
+    try {
+      page = req.page;
+    } catch (err) {}
+    const content = await Post.findAll({
+      // as: 'Post',
+      attributes: ['id', 'title', 'content', 'createdAt'],
+      include: [
+        {
+          model: Comment,
+          attributes: ['asknum', 'content'],
+        },
+        {
+          model: User,
+          attributes: ['id', 'nick', 'SM'],
+        },
+      ],
+      where: { id: page },
+    });
+    console.log(req);
+    console.log(content[0].dataValues.User.dataValues.id);
+    res.render('content', {
+      title: content[0].dataValues.title + ' - NodeProject',
+      content: content[0],
+      same: content[0].dataValues.Comments[0],
       signin: true,
       signup: true,
     });

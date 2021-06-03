@@ -10,6 +10,14 @@ WHERE p.rownum>0
 AND p.rownum<=5;
 
 
+
+SELECT *
+FROM (SELECT id, content  
+            FROM posts) e
+LEFT JOIN (SELECT asknum, content  
+            FROM posts) d
+ON e.id = d.asknum;
+
 router.get('/auth/qna', isLoggedIn, async (req, res, next) => {
   try {
     const users = await User.findAll({

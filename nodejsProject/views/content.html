@@ -1,0 +1,72 @@
+{% extends 'layout.html' %} {% block content %}
+<div class="timeline">
+  {% if user %}
+  <a id="mainbtn" href="/write" class="btn btn-outline-primary">글쓰기</a>
+  {% if user.id == content.user.id %}
+  <form
+    id="qna-form"
+    action="/del/title?page={{content.id}}&title={{content.title}}&content={{content.content}}"
+    method="post"
+    enctype="multipart/form-data"
+  >
+    <input id="my-id" name="qnaid" type="hidden" value="{{content.id}}" />
+
+    <button id="btn" type="submit" class="btn btn-outline-primary">삭제</button>
+  </form>
+  {% else %}
+  <!--  -->
+  {%if user.SM %}
+  <form
+    id="qna-form"
+    action="/del/title?page={{content.id}}&title={{content.title}}&content={{content.content}}"
+    method="post"
+    enctype="multipart/form-data"
+  >
+    <input id="my-id" name="qnaid" type="hidden" value="{{content.id}}" />
+
+    <button id="btn" type="submit" class="btn btn-outline-primary">삭제</button>
+  </form>
+  {% endif %}
+  <!--  -->
+  {% endif %}
+  <div class="qnas">
+    <p>{{content.id}}번째 글</p>
+    <p>글쓴이 id: {{content.User.id}}</p>
+    <p>글쓴이: {{content.User.nick}}</p>
+    <p>제목: {{content.title}}</p>
+    <p>내용: {{content.content}}</p>
+    <p>접속자 id: {{user.id}}</p>
+    <p>접속자: {{user.nick}}</p>
+  </div>
+  {% if user.SM %}
+  <span>운영자</span>
+
+  <form id="qna-form" action="/post/sm?page={{content.id}}" method="post" enctype="multipart/form-data">
+    <div class="input-group">
+      <textarea id="qna" name="answer" maxlength="140" wrap="physical" rows="4" onkeydown="return limitLines(this, event)" required></textarea>
+      <button id="btn" type="submit" class="btn btn-outline-primary">추가</button>
+    </div>
+  </form>
+  {% endif %}
+  <form id="qna-form" action="/del/comment?page={{content.id}}" method="post" enctype="multipart/form-data">
+    <button id="btn" type="submit" class="btn btn-outline-primary">대답 삭제</button>
+  </form>
+
+  <!--  -->
+  {% else %}
+  <div>로그인 하셔야 합니다</div>
+  {% endif %} {% endblock %} {% block script %}
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script>
+    function limitLines(obj, e) {
+      // 현재 textarea에 입력된 줄 수
+      let numberOfLines = (obj.value.match(/\n/g) || []).length + 1;
+      // textarea에 선언된 rows 수
+      let maxRows = obj.rows;
+      if (e.which === 13 && numberOfLines >= maxRows) {
+        return false;
+      }
+    }
+  </script>
+  {% endblock %}
+</div>

@@ -1,28 +1,21 @@
-// document.querySelectorAll('#qna-list').forEach((el) => {
-//   el.addEventListener('click', async (e) => {
-//     e.preventDefault();
-//     try {
-//       const qna = await axios.get('/qna');
-//       const qnas = qna.data;
-//       console.log('~1~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
-//       console.log(qnas);
-//       qnas.map
-//     } catch (err) {
-//       console.error(err);
-//     }
-//   });
-// });
+// window.onload = function () {
+//   alert('테스트중');
+// };
 
-// // async function getQnA() {
-// //   try {
-// //     const res = await axios.get('/qna');
-// //     console.log(res);
-// //   } catch (error) {
-// //     console.error(error);
-// //   }
-// // }
+async function first() {
+  try {
+    const res = await axios.get(`/axios/qna`);
+    console.log('~~~~~~~~~~~~~~~~~~~~~~~~~');
+    console.log(res);
+    return res;
+  } catch (err) {
+    console.log(err);
+  }
+}
 
-document.getElementById('qna-form').addEventListener('click', async (e) => {
-  e.preventDefault();
-  alert('test');
-});
+window.onload = function () {
+  alert('asdf');
+  first();
+  alert('fdas');
+  console.log(res);
+};
