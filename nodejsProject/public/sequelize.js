@@ -55,33 +55,33 @@ const init = () => {
 
 init();
 
-document.getElementById('home').addEventListener('click', async (e) => {
-  e.preventDefault();
-  try {
-    const res = await axios.get('/');
-    document.write(res.data);
-    console.log(res.data);
-  } catch (err) {
-    console.error(err);
-  }
-});
-document.getElementById('selfintro').addEventListener('click', async (e) => {
-  e.preventDefault();
-  try {
-    const res = await axios.get('/selfintro');
-    document.write(res.data);
-    console.log(res.data);
-  } catch (err) {
-    console.error(err);
-  }
-});
-document.getElementById('japanintro').addEventListener('click', async (e) => {
-  e.preventDefault();
-  try {
-    const res = await axios.get('/japanintro');
-    document.write(res.data);
-    console.log(res.data);
-  } catch (err) {
-    console.error(err);
-  }
-});
+// document.getElementById('home').addEventListener('click', async (e) => {
+//   e.preventDefault();
+//   try {
+//     const res = await axios.get('/');
+//     document.write(res.data);
+//     console.log(res.data);
+//   } catch (err) {
+//     console.error(err);
+//   }
+// });
+// document.getElementById('selfintro').addEventListener('click', async (e) => {
+//   e.preventDefault();
+//   try {
+//     const res = await axios.get('/selfintro');
+//     document.write(res.data);
+//     console.log(res.data);
+//   } catch (err) {
+//     console.error(err);
+//   }
+// });
+// document.getElementById('japanintro').addEventListener('click', async (e) => {
+//   e.preventDefault();
+//   try {
+//     const res = await axios.get('/japanintro');
+//     document.write(res.data);
+//     console.log(res.data);
+//   } catch (err) {
+//     console.error(err);
+//   }
+// });

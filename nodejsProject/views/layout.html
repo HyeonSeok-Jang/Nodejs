@@ -52,14 +52,14 @@
                   <a id="home" class="nav-link active" aria-current="page" href="/">Home</a>
                 </li>
                 <li class="nav-item">
-                  <a id="selfintro" class="nav-link" aria-current="page" href="/selfintro">자기소개</a>
+                  <a id="selfintro" class="nav-link active" aria-current="page" href="/selfintro">자기소개</a>
                 </li>
                 <li class="nav-item">
-                  <a id="japanintro" class="nav-link" aria-current="page" href="/japanintro">현지학기제</a>
+                  <a id="japanintro" class="nav-link active" aria-current="page" href="/japanintro">현지학기제</a>
                 </li>
                 <li class="nav-item">
                   {% if user and user.id %}
-                    <a id="ask" class="nav-link" aria-current="page"  href="/qna?page=1">
+                    <a id="ask" class="nav-link active" aria-current="page"  href="/qna?page=1">
                       {% if user.SM %}
                         대답하러 가기
                       {% else %}
@@ -73,17 +73,17 @@
               <!--  -->
               {% if user and user.id %}
                 <li>
-                  <a id="mainbtn" class="nav-link" aria-current="page" href="/auth/logout">로그아웃</a>
+                  <a id="mainbtn" class="nav-link active" aria-current="page" href="/auth/logout">로그아웃</a>
                 </li>
                 {% else %}
                   {% if signin %}
                     <li>
-                      <a id="mainbtn" class="nav-link" aria-current="page" href="/login">로그인</a>
+                      <a id="mainbtn" class="nav-link active" aria-current="page" href="/login">로그인</a>
                     </li>
                   {% endif %}
                   {% if signup %}
                     <li>
-                      <a id="mainbtn" class="nav-link" aria-current="page" href="/join">회원가입</a>
+                      <a id="mainbtn" class="nav-link active" aria-current="page" href="/join">회원가입</a>
                     </li>
                   {% endif %}
                 {% endif %}
