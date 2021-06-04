@@ -27,7 +27,7 @@ router.post('/sm', isLoggedIn, upload.none(), async (req, res, next) => {
     const page = req.query.page;
     console.log(page);
 
-    const id = await Comment.create({
+    const commentMake = await Comment.create({
       content: req.body.answer,
       asknum: page,
     });

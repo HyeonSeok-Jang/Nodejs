@@ -46,7 +46,7 @@ router.get('/japanintro', (req, res) => {
 
 router.get('/write', (req, res) => {
   const page = req.query.page;
-  console.log(page);
+
   res.render('write', {
     title: 'Write - NodeProject',
     page: page,
@@ -56,7 +56,6 @@ router.get('/write', (req, res) => {
 });
 
 router.get('/', (req, res, next) => {
-  req.body.login = 'a';
   const qnas = [];
   res.render('main', {
     title: 'NodeProject',
@@ -72,6 +71,7 @@ router.get('/qna', isLoggedIn, async (req, res, next) => {
     try {
       page = req.page;
     } catch (err) {
+      page = 0;
       console.log('처음 들어온 것');
     }
 
@@ -167,12 +167,14 @@ router.get('/content', isLoggedIn, async (req, res, next) => {
       ],
       where: { id: page },
     });
-    console.log(req);
-    console.log(content[0].dataValues.User.dataValues.id);
+    const connect_user = req.user.dataValues.id;
+    // console.log();
+    const write_user = content[0].dataValues.User.dataValues.id;
+    // console.log(content[0].dataValues);
     res.render('content', {
       title: content[0].dataValues.title + ' - NodeProject',
       content: content[0],
-      same: content[0].dataValues.Comments[0],
+      same: req.user.dataValues.id == content[0].dataValues.User.dataValues.id,
       signin: true,
       signup: true,
     });
@@ -182,4 +184,15 @@ router.get('/content', isLoggedIn, async (req, res, next) => {
   }
 });
 
+router.get('/test', async (req, res, next) => {
+  try {
+    res.render('japanintro', {
+      title: 'Japan Introduce - NodeProject',
+      signin: true,
+      signup: true,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+});
 module.exports = router;

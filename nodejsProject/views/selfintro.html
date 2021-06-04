@@ -7,4 +7,17 @@
   </form>
 </div>
 
+{% endblock %} {% block script %}
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="/sequelize.js"></script>
+<!-- <script src="/sequelize.js"></script> -->
+<script>
+  function limitLines(obj, e) {
+    let numberOfLines = (obj.value.match(/\n/g) || []).length + 1;
+    let maxRows = obj.rows;
+    if (e.which === 13 && numberOfLines >= maxRows) {
+      return false;
+    }
+  }
+</script>
 {% endblock %}

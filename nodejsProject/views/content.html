@@ -2,7 +2,7 @@
 <div class="timeline">
   {% if user %}
   <a id="mainbtn" href="/write" class="btn btn-outline-primary">글쓰기</a>
-  {% if user.id == content.user.id %}
+  {% if same %}
   <form
     id="qna-form"
     action="/del/title?page={{content.id}}&title={{content.title}}&content={{content.content}}"
@@ -38,6 +38,19 @@
     <p>접속자 id: {{user.id}}</p>
     <p>접속자: {{user.nick}}</p>
   </div>
+  {% for comment in content.Comments %}
+  <!--  -->
+  {% if content %}
+  <p>대답 번호:{{comment.asknum}}</p>
+  <p>대답:{{comment.content}}</p>
+  {% if user.SM %}
+  <form id="qna-form" action="/del/comment?page={{content.id}}" method="post" enctype="multipart/form-data">
+    <button id="btn" type="submit" class="btn btn-outline-primary">대답 삭제</button>
+  </form>
+  {% endif %}
+  <!--  -->
+  {% else %}
+  <!--  -->
   {% if user.SM %}
   <span>운영자</span>
 
@@ -47,16 +60,16 @@
       <button id="btn" type="submit" class="btn btn-outline-primary">추가</button>
     </div>
   </form>
-  {% endif %}
-  <form id="qna-form" action="/del/comment?page={{content.id}}" method="post" enctype="multipart/form-data">
-    <button id="btn" type="submit" class="btn btn-outline-primary">대답 삭제</button>
-  </form>
-
   <!--  -->
-  {% else %}
+  {% endif %}
+  <!--  -->
+  {% endif %}
+  <!--  -->
+  {% endfor %} {% else %}
   <div>로그인 하셔야 합니다</div>
   {% endif %} {% endblock %} {% block script %}
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <!-- <script src="./sequelize.js"></script> -->
   <script>
     function limitLines(obj, e) {
       // 현재 textarea에 입력된 줄 수

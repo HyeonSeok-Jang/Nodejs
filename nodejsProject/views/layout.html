@@ -5,121 +5,98 @@
     <title>{{title}}</title>
     <meta name="viewport" content="width=device-width, user-scalable=no" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+      crossorigin="anonymous"
+    ></script>
     <link rel="stylesheet" href="/main.css" />
   </head>
   <body>
     <div class="container">
       <div class="layout-wrap">
-        <div class="user-name">
-          
-          
-          <!-- <form id="login-form" action="/auth/login" method="post">
-            <div class="input-group">
-              <label class="input-group-text" for="userid">ID</label>
-              <input class="form-control" id="userid" type="id" name="userid" required autofocus />
-            </div>
-            <div class="input-group">
-              <label class="input-group-text" for="password">비밀번호</label>
-              <input class="form-control" id="password" type="password" name="password" required />
-            </div>
-            <a class="btn btn-outline-primary" id="join" href="/join" class="btn btn-outline-primary">회원가입</a>
-            <button class="btn btn-outline-primary" id="login" type="submit" class="btn btn-outline-primary">로그인</button>
-          </form> -->
-          {% if user and user.id %} 
-            {% if user.SM %}
-              <h1 class="user-cell">운영자 {{user.nick}} 계정입니다</h1>
-            {% else %}
-              <h1 class="user-cell">{{'안녕하세요! ' + user.nick + '님'}}</h1>
-            {% endif %}
-              <input id="my-id" type="hidden" value="{{user.id}}" />
-          {% else %}
-            <h1 class="user-cell">로그인이 필요합니다</h1>
-          {% endif %}
-          
-          <!-- <a id="mainbtn" href="/selfintro" class="btn btn-outline-primary">자기소개</a>
-          <a id="mainbtn" href="/japanintro" class="btn btn-outline-primary">일본 현지학기제 소개</a>
-          {% if user and user.id %}
-            <a id="mainbtn" href="/auth/qna" class="btn btn-outline-primary">QnA</a>
-          {% else %}
-            <button id="mainbtn" href="/auth/qna" class="btn btn-outline-primary" disabled>QnA</button> 
-          {% endif %} -->
-          
-          <!-- {% if acc %}
-            <div>잘 받음</div>
-          {% else %}
-            <div>null임</div>
-          {% endif %} -->
-        </div>
-        <div class="sign">
-          <a id="mainbtn" href="/" class="btn btn-outline-primary">홈</a>
-          {% if user and user.id %}
-            <a id="mainbtn" href="/auth/logout" class="btn btn-outline-primary">로그아웃</a>
-          {% else %}
-            {% if signin %}
-              <a id="mainbtn" href="/login" class="btn btn-outline-primary">로그인</a>
-            {% endif %}
-            {% if signup %}
-              <a id="mainbtn" href="/join" class="btn btn-outline-primary">회원가입</a>
-            {% endif %}
-          {% endif %}
-        </div>
-        <div class="content">
-          <div class="tab">
-            <figure class="snip1445">
-              <img src="/hsj - cut.png" alt="자기소개" />
-              <figcaption>
-                <div>
-                  <h2>장현석</h2>
-                  <h4>자기소개</h4>
-                </div>
-              </figcaption>
-              <a href="/selfintro"></a>
-            </figure>
-    
-            <figure class="snip1445">
-              <img src="/japan.jpg" alt="일본 현지학기제" />
-              <figcaption>
-                <div>
-                  <h2>일본</h2>
-                  <h4>현지학기제 소개</h4>
-                </div>
-              </figcaption>
-              <a href="/japanintro"></a>
-            </figure>
-    
-            <figure class="snip1445">
-              {% if user and user.id %}
-                <img src="/hsj - cut.png" alt="QnA" />
+        <nav class="navbar navbar-dark" style="background-color: #2070ff">
+          <div class="container-fluid">
+            <span class="logo">
+              {% if user and user.id %} 
+              {% if user.SM %}
+                <h1 class="navbar-brand">운영자 {{user.nick}} 계정입니다</h1>
               {% else %}
-                <img src="/hsj - hit - cut.png" alt="QnA" />
+                <h1 class="navbar-brand">{{'안녕하세요! ' + user.nick + '님'}}</h1>
               {% endif %}
-              <figcaption>
-                <div>
-                  <h2>QnA</h2>
+                <input id="my-id" type="hidden" value="{{user.id}}" />
+              {% else %}
+                <h1 class="navbar-brand">로그인이 필요합니다</h1>
+              {% endif %}
+            </span>
+            <button
+              class="navbar-toggler"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                  <a id="home" class="nav-link active" aria-current="page" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a id="selfintro" class="nav-link" aria-current="page" href="/selfintro">자기소개</a>
+                </li>
+                <li class="nav-item">
+                  <a id="japanintro" class="nav-link" aria-current="page" href="/japanintro">현지학기제</a>
+                </li>
+                <li class="nav-item">
                   {% if user and user.id %}
-                    {% if user.SM %}
-                      <h4>QnA대답하러 가기</h4>
-                    {% else %}
-                      <h4>질문소</h4>
-                    {% endif %}
+                    <a id="ask" class="nav-link" aria-current="page"  href="/qna?page=1">
+                      {% if user.SM %}
+                        대답하러 가기
+                      {% else %}
+                        질문하러 가기
+                      {% endif %}
+                    </a>
                   {% else %}
-                    <h4>로그인이 필요합니다</h4>
+                    <a class="nav-link" aria-current="page" href="#" disabled>로그인이 필요합니다</a> 
                   {% endif %}
-                </div>
-              </figcaption>
+                </li>
+              <!--  -->
               {% if user and user.id %}
-                <a href="/qna?page=1"></a>
-              {% else %}
-                <a href="#" disabled></a> 
-              {% endif %}
-            </figure>
+                <li>
+                  <a id="mainbtn" class="nav-link" aria-current="page" href="/auth/logout">로그아웃</a>
+                </li>
+                {% else %}
+                  {% if signin %}
+                    <li>
+                      <a id="mainbtn" class="nav-link" aria-current="page" href="/login">로그인</a>
+                    </li>
+                  {% endif %}
+                  {% if signup %}
+                    <li>
+                      <a id="mainbtn" class="nav-link" aria-current="page" href="/join">회원가입</a>
+                    </li>
+                  {% endif %}
+                {% endif %}
+              </ul>
+            </div>
           </div>
-          <div class="block">
-            {% block content %} {% endblock %}
-          </div>
-        </div>
-      </div>
+        </nav>
+
+
+
+      
+        {% block content %} {% endblock %}
+
       <footer>
         <!-- Made by&nbsp; -->
         
@@ -142,6 +119,7 @@
     
     
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="/sequelize.js"></script>
     <script>
       window.onload = () => {
         if (new URL(location.href).searchParams.get('loginError')) {
@@ -149,13 +127,7 @@
         }
       };
     </script>
-    <script>
-        $(".hover").mouseleave(
-          function () {
-            $(this).removeClass("hover");
-          }
-        );
-    </script>
+    
     {% block script %} {% endblock %}
   </body>
 </html>
