@@ -3,24 +3,40 @@
   {% if user %}
   <a id="mainbtn" href="/write?page={{page}}" class="btn btn-outline-primary">글쓰기</a>
   <div class="qnas">
-    {% for qna in qnas %}
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <td>번호</td>
+          <td>제목</td>
+          <td>글쓴이</td>
+          <td>제작일</td>
+        </tr>
+      </thead>
+      <tbody>
+        {% for qna in qnas %}
+        <input type="hidden" value="{{qna.User.id}}" class="qna-user-id" />
+        <input type="hidden" value="{{qna.id}}" class="qna-id" />
+        <tr>
+          <td>{{qna.id}}</td>
+          <td><a class="qna-content" href="/Content?page={{qna.id}}" name="qnacontent">{{qna.title}}</a></td>
+          <td>{{qna.User.nick}}</td>
+          <td>{{qna.createdAt}}</td>
+        </tr>
 
-    <input type="hidden" value="{{qna.User.id}}" class="qna-user-id" />
+        <!--  -->
+        {% endfor %}
+      </tbody>
+    </table>
 
-    <input type="hidden" value="{{qna.id}}" class="qna-id" />
-    <div class="qna-author">{{qna.User.nick}}</div>
-    <a class="qna-content" href="/Content?page={{qna.id}}" name="qnacontent">{{qna.title}}</a>
-
-    <!--  -->
-    {% endfor %}
     <form id="login-form" action="/qna" method="GET">
       {% for cnt in count %}
       <!--  -->
-      {% if cnt == page %}
-      <p>{{cnt}}</p>
-      {% else %} &nbsp<input class="btn btn-outline-primary" type="submit" id="qna-list" name="page" value="{{cnt}}" />&nbsp {% endif %}
+      &nbsp {% if cnt == page %}
+      <input class="btn btn-outline-primary" type="submit" id="qna-list" name="page" value="{{cnt}}" disabled="disabled" />
+      {% else %}
+      <input class="btn btn-outline-primary" type="submit" id="qna-list" name="page" value="{{cnt}}" /> {% endif %}
       <!--  -->
-      {% endfor %}
+      {% endfor %} &nbsp
     </form>
   </div>
   {% else %}

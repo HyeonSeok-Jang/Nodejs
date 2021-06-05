@@ -26,6 +26,7 @@ module.exports = class Comment extends Sequelize.Model {
     db.Comment.belongsTo(db.Post, {
       foreignKey: 'asknum',
       targetKey: 'id',
+      onDelete: 'CASCADE',
     });
   }
 };

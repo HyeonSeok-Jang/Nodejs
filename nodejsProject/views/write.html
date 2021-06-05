@@ -1,40 +1,60 @@
-{% extends 'layout.html' %} {% block content %}
-<div>
-  <form id="qna-form" action="/post?page={{page}}" method="post" enctype="multipart/form-data">
-    <div>제목</div>
-    <div class="input-group">
-      <textarea id="qna" name="title" maxlength="140" wrap="physical" rows="4" onkeydown="return limitLines(this, event)" required></textarea>
-    </div>
-    <div>내용</div>
-    <div class="input-group">
-      <textarea id="qna" name="content" maxlength="140" wrap="physical" rows="4" onkeydown="return limitLines(this, event)" required></textarea>
-    </div>
+{% extends 'empty-layout.html' %} {% block style %}
+<link rel="stylesheet" href="/write.css" />
+{% endblock %} {% block content %}
+<form id="qna-form" action="/post?page={{page}}" method="post" enctype="multipart/form-data">
+  <div class="input-group mb-3">
+    <span class="input-group-text" id="basic-addon1">제목</span>
+    <input
+      id="qna"
+      class="form-control"
+      name="title"
+      maxlength="40"
+      wrap="physical"
+      rows="1"
+      type="text"
+      placeholder="TITLE"
+      aria-label="Username"
+      aria-describedby="basic-addon1"
+      onkeydown="return limitTitle(this, event)"
+      required
+    />
+  </div>
+  <div></div>
+  <div class="input-group">
+    <span class="input-group-text" id="basic-addon1">내용</span>
+    <textarea
+      id="qna"
+      class="form-control"
+      name="content"
+      maxlength="140"
+      wrap="physical"
+      rows="4"
+      type="text"
+      placeholder="CONTENT"
+      aria-label="Username"
+      aria-describedby="basic-addon1"
+      onkeydown="return limitLines(this, event)"
+      required
+    ></textarea>
+  </div>
 
-    <div>
-      <button id="qna-btn" type="submit" class="btn btn-outline-primary">묻기</button>
-    </div>
-  </form>
-</div>
-
-<!-- {% if user.SM %}
-    <form id="qna-form" action="/post/sm" method="post" enctype="multipart/form-data">
-      <div class="input-group">
-        <input id="my-id" name="qnaid" type="hidden" value="{{qna.id}}" />
-        <textarea id="qna" name="answer" maxlength="140" wrap="physical" rows="4" onkeydown="return limitLines(this, event)" required></textarea>
-        <button id="btn" type="submit" class="btn btn-outline-primary">추가</button>
-      </div>
-    </form>
-    <form id="qna-form" action="/del" method="post" enctype="multipart/form-data">
-      <input id="my-id" name="qnaid" type="hidden" value="{{qna.id}}" />
-      <button id="btn" type="submit" class="btn btn-outline-primary">삭제</button>
-    </form>
-    {% endif %} -->
-{% endblock %}
-<!--  -->
-{% block script %}
+  <div>
+    <button id="qna-btn" type="submit" class="mainbtn btn btn-outline-primary">묻기</button>
+  </div>
+</form>
+{% endblock %} {% block script %}
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <!-- <script src="/sequelize.js"></script> -->
 <script>
+  function limitTitle(obj, e) {
+    // 현재 textarea에 입력된 줄 수
+    let numberOfLines = (obj.value.match(/\n/g) || []).length + 1;
+    // textarea에 선언된 rows 수
+    let maxRows = obj.rows;
+    if (e.which === 13 && numberOfLines >= maxRows) {
+      return false;
+    }
+  }
   function limitLines(obj, e) {
     // 현재 textarea에 입력된 줄 수
     let numberOfLines = (obj.value.match(/\n/g) || []).length + 1;

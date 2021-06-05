@@ -1,5 +1,6 @@
 const passport = require('passport');
 const local = require('./localStrategy');
+const join = require('./joinStrategy');
 const User = require('../models/user');
 
 module.exports = () => {
@@ -12,6 +13,6 @@ module.exports = () => {
       .then((user) => done(null, user))
       .catch((err) => done(err));
   });
-
   local();
+  join();
 };

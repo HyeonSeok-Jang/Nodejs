@@ -5,6 +5,7 @@
 }
 html,
 body {
+  width: 100%;
   margin: 0px;
   padding: 0;
   height: 100%;
@@ -268,4 +269,16 @@ footer {
 
 .test {
   font-size: 30pt;
+}
+td:nth-child(1) {
+  width: 10%;
+}
+td:nth-child(2) {
+  width: 55%;
+}
+td:nth-child(3) {
+  width: 15%;
+}
+td:nth-child(4) {
+  width: 20%;
 }

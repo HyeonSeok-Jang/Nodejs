@@ -1,51 +1,33 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>{{title}}</title>
-    <meta name="viewport" content="width=device-width, user-scalable=no" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
-      crossorigin="anonymous"
-    />
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
-      crossorigin="anonymous"
-    ></script>
-    <link rel="stylesheet" href="/login.css" />
-  </head>
-  <body>
-    <a href="/" class="loginpic"><img src="hsj.png" alt="" /></a>
-    <div class="loginbox">
-      <form id="login-form" action="/auth/login" method="post">
-        <div class="input-group">
-          <label class="input-group-text" for="userid">ID</label>
-          <input class="form-control" id="userid" type="id" name="userid" required autofocus />
-        </div>
-        <div class="input-group">
-          <label class="input-group-text" for="password">비밀번호</label>
-          <input class="form-control" id="password" type="password" name="password" required />
-        </div>
-        <button id="mainbtn" class="btn btn-outline-primary" id="login" type="submit">로그인</button>
-      </form>
-    </div>
+{% extends 'empty-layout.html' %} {% block style %}
+<link rel="stylesheet" href="/login.css" />
+{% endblock %} {% block content %}
 
-    <footer class="loginbox another">
-      <p>혹시 아이디가 없으신가요?</p>
-      <a id="mainbtn" class="btn btn-outline-primary" aria-current="page" href="/join">회원가입</a>
-    </footer>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="/sequelize.js"></script>
-    <script>
-      window.onload = () => {
-        if (new URL(location.href).searchParams.get('loginError')) {
-          alert(new URL(location.href).searchParams.get('loginError'));
-        }
-      };
-    </script>
-  </body>
-</html>
+<div class="loginbox">
+  <form id="login-form" action="/auth/login" method="post">
+    <div class="input-group">
+      <label class="input-group-text" for="userid">ID</label>
+      <input id="loginid" class="form-control" type="id" name="userid" required autofocus />
+      <!-- <textarea name="userid" cols="30" rows="1" class="form-control" id="loginid" type="id" required autofocus></textarea> -->
+    </div>
+    <div class="input-group">
+      <label class="input-group-text" for="password">비밀번호</label>
+      <input id="loginpwd" class="form-control" type="password" name="password" required />
+    </div>
+    <button id="loginbtn" class="mainbtn btn btn-outline-primary" id="login" type="submit">로그인</button>
+  </form>
+</div>
+
+<footer class="another">
+  <p>혹시 아이디가 없으신가요?</p>
+  <a class="mainbtn btn btn-outline-primary" aria-current="page" href="/join">회원가입</a>
+</footer>
+{% endblock %} {% block script %}
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+  window.onload = () => {
+    if (new URL(location.href).searchParams.get('loginError')) {
+      alert(new URL(location.href).searchParams.get('loginError'));
+    }
+  };
+</script>
+{% endblock %}

@@ -68,12 +68,6 @@ router.get('/', (req, res, next) => {
 router.get('/qna', isLoggedIn, async (req, res, next) => {
   try {
     const page = req.query.page - 1;
-    try {
-      page = req.page;
-    } catch (err) {
-      page = 0;
-      console.log('처음 들어온 것');
-    }
 
     // const qnas = await Post.findAll({
     //   // as: 'Post',
@@ -127,7 +121,32 @@ router.get('/qna', isLoggedIn, async (req, res, next) => {
     // });
 
     // console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
-    // console.log(qnas);
+    for (let i = 0; i < 5; i++) {
+      if (qnas[i]) {
+        let date = qnas[i].dataValues.createdAt;
+        let nowdate = new Date();
+        // console.log(date);
+        let newdate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}`;
+        // console.log(newdate);
+        qnas[i].dataValues.createdAt = newdate;
+      } else {
+        qnas[i] = qnas[0].getDataValue;
+        qnas[i] = {
+          id: '-',
+          title: '-',
+          User: {
+            nick: '-',
+          },
+          createdAt: '-',
+        };
+        // qnas[i].dataValues.id = '-';
+        // qnas[i].dataValues.title = '-';
+        // qnas[i].dataValues.User.dataValues.nick = '-';
+        // qnas[i].dataValues.createdAt = '-';
+      }
+      // console.log(qnas[i]);
+    }
+
     const end = (await Post.findAndCountAll({})).count / 5;
     const count = [];
     for (let j = 0; j < end; j++) count[j] = j + 1;

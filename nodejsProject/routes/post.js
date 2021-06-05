@@ -9,7 +9,14 @@ const router = express.Router();
 const upload = multer();
 router.post('/', isLoggedIn, upload.none(), async (req, res, next) => {
   try {
-    const page = req.query.page;
+    const page = 1;
+    try {
+      page = req.query.page;
+    } catch (err) {
+      console.log('받는 곳 없었음');
+    }
+
+    console.log(page);
     const post = await Post.create({
       title: req.body.title,
       content: req.body.content,

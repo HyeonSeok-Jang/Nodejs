@@ -31,6 +31,7 @@ module.exports = class Post extends Sequelize.Model {
     db.Post.hasMany(db.Comment, {
       foreignKey: 'asknum',
       sourceKey: 'id',
+      onDelete: 'CASCADE',
     });
   }
 };

@@ -55,6 +55,52 @@ const init = () => {
 
 init();
 
+document.getElementById('loginbtn').addEventListener('click', async (e) => {
+  e.preventDefault();
+  try {
+    const id = document.getElementById('loginid');
+    const pwd = document.getElementById('loginpwd');
+    console.log(id.value);
+    console.log(pwd.value);
+    const result = await axios.post('/auth/login', { userid: id.value, password: pwd.value });
+    console.log(result.data);
+    if (result.data === true) {
+      // console.log('yaho');
+      document.location.href = '/';
+    } else {
+      alert(result.data);
+    }
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+document.getElementById('joinbtn').addEventListener('click', async (e) => {
+  e.preventDefault();
+  try {
+    console.log('test1');
+    const id = document.getElementById('joinid');
+    const nick = document.getElementById('joinnick');
+    const pwd = document.getElementById('joinpwd');
+    console.log(id.value);
+    console.log(nick.value);
+    console.log(pwd.value);
+    console.log('test2');
+    const result = await axios.get('/auth/join', { userid: id.value, nick: nick.value, password: pwd.value });
+    console.log('test???');
+    console.log(result.data);
+
+    // if (result.data === true) {
+    //   // console.log('yaho');
+    //   document.location.href = '/';
+    // } else {
+    //   alert(result.data);
+    // }
+  } catch (err) {
+    console.error(err);
+  }
+});
+
 // document.getElementById('home').addEventListener('click', async (e) => {
 //   e.preventDefault();
 //   try {
