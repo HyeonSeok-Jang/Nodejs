@@ -1,0 +1,30 @@
+.prose-content {
+  text-align: left;
+}
+.prose-ffont {
+  font-size: 200%;
+  display: inline-block;
+}
+.prose-center {
+  /* text-align: center; */
+  /* display: block; */
+  width: 100%;
+}
+.mainImg {
+  display: block;
+}
+.caption {
+  text-align: center;
+  font-size: 0.7em;
+  color: darkgrey;
+}
+.imgWithText {
+  /* align: left; */
+  float: left;
+}
+video {
+  float: right;
+  width: 500px;
+  height: auto;
+  object-fit: scale-down;
+}

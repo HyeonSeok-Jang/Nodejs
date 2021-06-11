@@ -44,7 +44,7 @@ router.get('/japanintro', (req, res) => {
   });
 });
 
-router.get('/write', (req, res) => {
+router.get('/write', isLoggedIn, (req, res) => {
   const page = req.query.page;
 
   res.render('write', {
@@ -109,18 +109,6 @@ router.get('/qna', isLoggedIn, async (req, res, next) => {
       limit: 5,
     });
 
-    // const ans = await Post.findAll({
-    //   attributes: ['id', 'createdAt', 'content'],
-    //   include: {
-    //     model: User,
-    //     // attributes: ['id', 'nick', Sequelize.literal('ROW_NUMBER() OVER(ORDER BY id ASC)', 'rownum')],
-    //     attributes: ['id', 'nick'],
-    //   },
-    //   where: { asknum: { [Op.not]: null } },
-    //   order: [['createdAt', 'DESC']],
-    // });
-
-    // console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
     for (let i = 0; i < 5; i++) {
       if (qnas[i]) {
         let date = qnas[i].dataValues.createdAt;
@@ -146,7 +134,19 @@ router.get('/qna', isLoggedIn, async (req, res, next) => {
       }
       // console.log(qnas[i]);
     }
+    // const ans = await Post.findAll({
+    //   attributes: ['id', 'createdAt', 'content'],
+    //   include: {
+    //     model: User,
+    //     // attributes: ['id', 'nick', Sequelize.literal('ROW_NUMBER() OVER(ORDER BY id ASC)', 'rownum')],
+    //     attributes: ['id', 'nick'],
+    //   },
+    //   where: { asknum: { [Op.not]: null } },
+    //   order: [['createdAt', 'DESC']],
+    // });
 
+    // console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+    // console.log(qnas);
     const end = (await Post.findAndCountAll({})).count / 5;
     const count = [];
     for (let j = 0; j < end; j++) count[j] = j + 1;
@@ -173,11 +173,11 @@ router.get('/content', isLoggedIn, async (req, res, next) => {
     } catch (err) {}
     const content = await Post.findAll({
       // as: 'Post',
-      attributes: ['id', 'title', 'content', 'createdAt'],
+      attributes: ['id', 'title', 'content', 'img', 'createdAt'],
       include: [
         {
           model: Comment,
-          attributes: ['asknum', 'content'],
+          attributes: ['id', 'askid', 'asknum', 'content'],
         },
         {
           model: User,
@@ -189,11 +189,27 @@ router.get('/content', isLoggedIn, async (req, res, next) => {
     const connect_user = req.user.dataValues.id;
     // console.log();
     const write_user = content[0].dataValues.User.dataValues.id;
-    // console.log(content[0].dataValues);
+    // console.log(content[0].Comments[0]);
+    const find = content[0].Comments[0];
+    let answer = '';
+    if (find != undefined) {
+      const master = await User.findOne({
+        attributes: ['id', 'nick'],
+        where: { id: content[0].Comments[0].dataValues.askid },
+      });
+      // console.log(master);
+      answer = { asknum: content[0].Comments[0].dataValues.id, nick: master.nick, content: content[0].Comments[0].dataValues.content };
+    } else {
+      answer = null;
+    }
+    let imgs = content[0].dataValues.img;
+    console.log(imgs.split(','));
     res.render('content', {
       title: content[0].dataValues.title + ' - NodeProject',
       content: content[0],
+      answer: answer,
       same: req.user.dataValues.id == content[0].dataValues.User.dataValues.id,
+      imgs: imgs.split(','),
       signin: true,
       signup: true,
     });

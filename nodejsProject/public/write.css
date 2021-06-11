@@ -10,6 +10,13 @@ body {
   height: 100%;
   overflow-x: hidden;
 }
+div {
+  text-align: center;
+}
+a {
+  text-decoration: none;
+}
+
 .around {
   width: 600px;
   height: 750px;
@@ -21,13 +28,14 @@ body {
 }
 
 .input-group-text {
-  width: 150px;
+  /* width: 150px; */
+  width: 25%;
 }
-div {
-  text-align: center;
-}
-a {
-  text-decoration: none;
+
+#qna {
+  height: 500px;
+  resize: none;
+  width: 75%;
 }
 
 .btn {
@@ -36,10 +44,12 @@ a {
 }
 .mainbtn {
   width: 100%;
-  height: 100%;
 }
 #loginbtn {
   bottom: 0;
+}
+#qna-btn {
+  margin-bottom: 50px;
 }
 
 .loginbox {

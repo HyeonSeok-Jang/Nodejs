@@ -5,7 +5,7 @@
   <div class="input-group mb-3">
     <span class="input-group-text" id="basic-addon1">제목</span>
     <input
-      id="qna"
+      id="qnatitle"
       class="form-control"
       name="title"
       maxlength="40"
@@ -36,12 +36,27 @@
       onkeydown="return limitLines(this, event)"
       required
     ></textarea>
+    <div class="img-preview">
+      <!-- <img id="img-preview" src="" style="display: none" width="250" alt="미리보기" />
+      <input id="img-url" type="hidden" name="url" data="0" /> -->
+    </div>
   </div>
 
   <div>
-    <button id="qna-btn" type="submit" class="mainbtn btn btn-outline-primary">묻기</button>
+    <!-- <label id="img-label" for="img">사진 업로드</label> -->
+    <label id="imgaddbtn" class="mainbtn btn btn-outline-primary btn-file">
+      파일 추가
+      <input id="img" type="file" accept="image/*" style="display: none" />
+    </label>
   </div>
 </form>
+<div id="imgCollector">
+  <!-- <button id="imgdelbtn" type="none" class="mainbtn btn btn-outline-primary btn-file">파일 삭제</button> -->
+</div>
+
+<br />
+<br />
+<button id="qna-btn" type="submit" class="mainbtn btn btn-outline-primary" form="qna-form">묻기</button>
 {% endblock %} {% block script %}
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <!-- <script src="/sequelize.js"></script> -->
@@ -67,5 +82,76 @@
   // function findScript(qna, ans){
 
   // }
+</script>
+<script>
+  if (document.getElementById('img')) {
+    document.getElementById('img').addEventListener('change', function (e) {
+      const formData = new FormData();
+      console.log(this, this.files);
+      formData.append('img', this.files[0]);
+      let leng = document.querySelectorAll('#img-preview').length;
+      if (leng >= 4) {
+        return alert('사진이 4개가 넘었습니다.');
+      }
+      axios
+        .post('/post/img', formData)
+        .then((res) => {
+          // <div class="img-preview">
+          //   <img id="img-preview" src="" style="display: none" width="250" alt="미리보기" />
+          //   <input id="img-url" type="hidden" name="url" data="0" />
+          // </div>
+
+          let priview = document.querySelector('.img-preview');
+          let imgurl = document.createElement('input');
+          imgurl.setAttribute('value', res.data.url);
+          imgurl.setAttribute('id', 'img-url');
+          imgurl.setAttribute('name', 'url');
+          imgurl.setAttribute('type', 'hidden');
+          imgurl.setAttribute('data', leng);
+          priview.appendChild(imgurl);
+
+          let imgCol = document.querySelector('#imgCollector');
+          let imgpriv = document.createElement('img');
+          imgpriv.setAttribute('id', 'img-preview');
+          imgpriv.setAttribute('src', res.data.url);
+          imgpriv.setAttribute('width', '250');
+          imgpriv.setAttribute('alt', '미리보기');
+
+          // <button id="imgdelbtn" type="none" class="mainbtn btn btn-outline-primary btn-file" style="display: none">파일 삭제</button>
+          let delbtn = document.createElement('button');
+          delbtn.setAttribute('id', 'imgdelbtn');
+          delbtn.setAttribute('class', 'mainbtn btn btn-outline-primary');
+          delbtn.addEventListener('click', (e) => {
+            priview.removeChild(imgurl);
+            imgCol.removeChild(imgpriv);
+            imgCol.removeChild(delbtn);
+            imgurl.value = null;
+            imgpriv.src = null;
+            imgpriv.style.display = 'none';
+            delbtn.style.display = 'none';
+          });
+          delbtn.innerText = '파일 삭제';
+          imgCol.appendChild(imgpriv);
+          imgCol.appendChild(delbtn);
+          // document.getElementById('img-url').value = res.data.url;
+          // document.getElementById('img-preview').src = res.data.url;
+          // document.getElementById('img-preview').style.display = 'inline';
+          // document.getElementById('imgdelbtn').style.display = 'inline';
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+      // const leng = document.querySelectorAll('#img-url').length;
+      // console.log(leng);
+      // const test = document.querySelectorAll(`#img-url[data='1']`);
+      // console.log(test);
+    });
+  }
+  // document.getElementById('imgdelbtn').addEventListener('click', (e) => {
+  //   document.getElementById('img-url').value = null;
+  //   document.getElementById('img-preview').src = null;
+  //   document.getElementById('img-preview').style.display = 'none';
+  //   document.getElementById('imgdelbtn').style.display = 'none';
+  // });
 </script>
 {% endblock %}

@@ -1,43 +1,47 @@
-{% extends 'layout.html' %} {% block content %}
+{% extends 'layout.html' %} {% block style %}
+<link rel="stylesheet" href="/qna.css" />
+{% endblock %} {% block content %}
 <div class="timeline">
   {% if user %}
   <a id="mainbtn" href="/write?page={{page}}" class="btn btn-outline-primary">글쓰기</a>
   <div class="qnas">
-    <table class="table table-hover">
-      <thead>
-        <tr>
-          <td>번호</td>
-          <td>제목</td>
-          <td>글쓴이</td>
-          <td>제작일</td>
-        </tr>
-      </thead>
-      <tbody>
-        {% for qna in qnas %}
-        <input type="hidden" value="{{qna.User.id}}" class="qna-user-id" />
-        <input type="hidden" value="{{qna.id}}" class="qna-id" />
-        <tr>
-          <td>{{qna.id}}</td>
-          <td><a class="qna-content" href="/Content?page={{qna.id}}" name="qnacontent">{{qna.title}}</a></td>
-          <td>{{qna.User.nick}}</td>
-          <td>{{qna.createdAt}}</td>
-        </tr>
+    <div class="qnas">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <td class="col1">번호</td>
+            <td class="col2">제목</td>
+            <td class="col3">글쓴이</td>
+            <td class="col4">제작일</td>
+          </tr>
+        </thead>
+        <tbody>
+          {% for qna in qnas %}
+          <input type="hidden" value="{{qna.User.id}}" class="qna-user-id" />
+          <input type="hidden" value="{{qna.id}}" class="qna-id" />
+          <tr>
+            <td>{{qna.id}}</td>
+            <td><a class="qna-content" href="/Content?page={{qna.id}}" name="qnacontent">{{qna.title}}</a></td>
+            <td>{{qna.User.nick}}</td>
+            <td>{{qna.createdAt}}</td>
+          </tr>
 
+          <!--  -->
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <form id="login-form" action="/qna" method="GET">
+        {% for cnt in count %}
         <!--  -->
-        {% endfor %}
-      </tbody>
-    </table>
-
-    <form id="login-form" action="/qna" method="GET">
-      {% for cnt in count %}
-      <!--  -->
-      &nbsp {% if cnt == page %}
-      <input class="btn btn-outline-primary" type="submit" id="qna-list" name="page" value="{{cnt}}" disabled="disabled" />
-      {% else %}
-      <input class="btn btn-outline-primary" type="submit" id="qna-list" name="page" value="{{cnt}}" /> {% endif %}
-      <!--  -->
-      {% endfor %} &nbsp
-    </form>
+        &nbsp {% if cnt == page %}
+        <input class="btn btn-outline-primary" type="submit" id="qna-list" name="page" value="{{cnt}}" disabled="disabled" />
+        {% else %}
+        <input class="btn btn-outline-primary" type="submit" id="qna-list" name="page" value="{{cnt}}" /> {% endif %}
+        <!--  -->
+        {% endfor %} &nbsp
+      </form>
+    </div>
   </div>
   {% else %}
   <div>로그인 하셔야 합니다</div>

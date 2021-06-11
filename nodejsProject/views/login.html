@@ -3,7 +3,8 @@
 {% endblock %} {% block content %}
 
 <div class="loginbox">
-  <form id="login-form" action="/auth/login" method="post">
+  <!-- <form id="login-form" action="/auth/login" method="post"> -->
+    <form id="login-form" action="" method="post"></form>
     <div class="input-group">
       <label class="input-group-text" for="userid">ID</label>
       <input id="loginid" class="form-control" type="id" name="userid" required autofocus />
@@ -29,5 +30,25 @@
       alert(new URL(location.href).searchParams.get('loginError'));
     }
   };
+</script>
+<script>
+  document.getElementById('loginbtn').addEventListener('click', async (e) => {
+    e.preventDefault();
+    // alert('시작');
+    try {
+      const id = document.getElementById('loginid');
+      const pwd = document.getElementById('loginpwd');
+      const result = await axios.post('/auth/login', { userid: id.value, password: pwd.value });
+      console.log(result.data);
+      if (result.data == true) {
+        // console.log('yaho');
+        document.location.href = '/';
+      } else {
+        alert(result.data);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  });
 </script>
 {% endblock %}
