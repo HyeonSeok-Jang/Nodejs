@@ -54,13 +54,13 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <a id="home" class="nav-link active" aria-current="page" href="/">Home</a>
+                <a id="navbtn" class="nav-link active" aria-current="page" value="home" href="#">Home</a>
               </li>
               <li class="nav-item">
-                <a id="selfintro" class="nav-link active" aria-current="page" href="/selfintro">자기소개</a>
+                <a id="navbtn" class="nav-link active" aria-current="page" value="self" href="#">자기소개</a>
               </li>
               <li class="nav-item">
-                <a id="japanintro" class="nav-link active" aria-current="page" href="/japanintro">현지학기제</a>
+                <a id="navbtn" class="nav-link active" aria-current="page" value="japan" href="#">현지학기제</a>
               </li>
               <li class="nav-item">
                 {% if user and user.id %}
@@ -103,7 +103,9 @@
 
 
 
-      <div class="block-content">{% block content %} {% endblock %}</div>
+      <div id="block-content" class="block-content">
+        {% block content %} {% endblock %}
+      </div>
       <footer>
         <!-- Made by&nbsp; -->
         
@@ -126,7 +128,7 @@
     
     
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="/sequelize.js"></script>
+    <!-- <script src="/sequelize.js"></script> -->
     <script>
       window.onload = () => {
         if (new URL(location.href).searchParams.get('loginError')) {
@@ -134,7 +136,39 @@
         }
       };
     </script>
-    
+    <script>
+      window.onload=()=>{
+        const url = window.location.pathname;
+        const query = window.location.search;
+        const navbtns = document.querySelectorAll('#navbtn');
+        // const homeBtn = document.querySelector('#home');
+        // const selfIntro = document.querySelector('#selfintro');
+        // const japanIntro = document.querySelector('#japanintro');
+        navbtns.forEach((navbtn)=>{
+          // console.log(navbtn);
+          const btnValue = navbtn.getAttribute('value');
+          navbtn.addEventListener('click',(e)=>{
+            console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+            axios
+              .post(`/axios${query}`, {url:url, position:btnValue})
+              .then((res) => {
+                const find = res.data.find;
+                if(find){
+                  alert(res.data.message);
+                }else{
+                  location.replace(`/?page=${res.data.message}`);
+                }
+              })
+              .catch((err) => {
+                console.error(err);
+              });
+          })
+          // navbtn.value;
+        });
+
+      }
+      
+    </script>
     {% block script %} {% endblock %}
   </body>
 </html>

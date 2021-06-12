@@ -41,8 +41,7 @@
       const result = await axios.post('/auth/login', { userid: id.value, password: pwd.value });
       console.log(result.data);
       if (result.data == true) {
-        // console.log('yaho');
-        document.location.href = '/';
+        document.location.href = '/?page=home';
       } else {
         alert(result.data);
       }

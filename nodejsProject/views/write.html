@@ -96,18 +96,12 @@
       axios
         .post('/post/img', formData)
         .then((res) => {
-          // <div class="img-preview">
-          //   <img id="img-preview" src="" style="display: none" width="250" alt="미리보기" />
-          //   <input id="img-url" type="hidden" name="url" data="0" />
-          // </div>
-
           let priview = document.querySelector('.img-preview');
           let imgurl = document.createElement('input');
           imgurl.setAttribute('value', res.data.url);
           imgurl.setAttribute('id', 'img-url');
           imgurl.setAttribute('name', 'url');
           imgurl.setAttribute('type', 'hidden');
-          imgurl.setAttribute('data', leng);
           priview.appendChild(imgurl);
 
           let imgCol = document.querySelector('#imgCollector');
@@ -133,25 +127,11 @@
           delbtn.innerText = '파일 삭제';
           imgCol.appendChild(imgpriv);
           imgCol.appendChild(delbtn);
-          // document.getElementById('img-url').value = res.data.url;
-          // document.getElementById('img-preview').src = res.data.url;
-          // document.getElementById('img-preview').style.display = 'inline';
-          // document.getElementById('imgdelbtn').style.display = 'inline';
         })
         .catch((err) => {
           console.error(err);
         });
-      // const leng = document.querySelectorAll('#img-url').length;
-      // console.log(leng);
-      // const test = document.querySelectorAll(`#img-url[data='1']`);
-      // console.log(test);
     });
   }
-  // document.getElementById('imgdelbtn').addEventListener('click', (e) => {
-  //   document.getElementById('img-url').value = null;
-  //   document.getElementById('img-preview').src = null;
-  //   document.getElementById('img-preview').style.display = 'none';
-  //   document.getElementById('imgdelbtn').style.display = 'none';
-  // });
 </script>
 {% endblock %}

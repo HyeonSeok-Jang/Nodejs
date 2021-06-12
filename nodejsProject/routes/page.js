@@ -28,6 +28,41 @@ router.get('/login', isNotLoggedIn, (req, res) => {
   });
 });
 
+router.get('/', (req, res) => {
+  const page = req.query.page;
+  if (page === undefined || page === null) {
+    res.render('main', {
+      title: 'Home - NodeProject',
+      signin: true,
+      signup: true,
+    });
+  } else if (page == 'self') {
+    res.render('selfintro', {
+      title: 'Self Introduce - NodeProject',
+      signin: true,
+      signup: true,
+    });
+  } else if (page == 'japan') {
+    res.render('japanintro', {
+      title: 'Japan Introduce - NodeProject',
+      signin: true,
+      signup: true,
+    });
+  } else if (page == 'home') {
+    res.render('main', {
+      title: 'Home - NodeProject',
+      signin: true,
+      signup: true,
+    });
+  } else {
+    res.render('main', {
+      title: 'Home - NodeProject',
+      signin: true,
+      signup: true,
+    });
+  }
+});
+
 router.get('/selfintro', (req, res) => {
   res.render('selfintro', {
     title: 'Self Introduce - NodeProject',
@@ -45,21 +80,9 @@ router.get('/japanintro', (req, res) => {
 });
 
 router.get('/write', isLoggedIn, (req, res) => {
-  const page = req.query.page;
-
   res.render('write', {
     title: 'Write - NodeProject',
-    page: page,
-    signin: true,
-    signup: true,
-  });
-});
-
-router.get('/', (req, res, next) => {
-  const qnas = [];
-  res.render('main', {
-    title: 'NodeProject',
-    qnas,
+    page: req.query.page,
     signin: true,
     signup: true,
   });
@@ -203,13 +226,18 @@ router.get('/content', isLoggedIn, async (req, res, next) => {
       answer = null;
     }
     let imgs = content[0].dataValues.img;
-    console.log(imgs.split(','));
+    // console.log(imgs.split(','));
+    if (imgs === null) {
+      imgs === null;
+    } else {
+      imgs = imgs.split(',');
+    }
     res.render('content', {
       title: content[0].dataValues.title + ' - NodeProject',
       content: content[0],
       answer: answer,
       same: req.user.dataValues.id == content[0].dataValues.User.dataValues.id,
-      imgs: imgs.split(','),
+      imgs: imgs,
       signin: true,
       signup: true,
     });
