@@ -138,17 +138,8 @@ router.get('/qna', isLoggedIn, async (req, res, next) => {
       offset: page * 5,
       limit: 5,
     });
-
-    for (let i = 0; i < 5; i++) {
-      if (qnas[i]) {
-        let date = qnas[i].dataValues.createdAt;
-        let nowdate = new Date();
-        // console.log(date);
-        let newdate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}`;
-        // console.log(newdate);
-        qnas[i].dataValues.createdAt = newdate;
-      } else {
-        qnas[i] = qnas[0].getDataValue;
+    if(qnas.length<1){
+      for(let i = 0;i<5;i++){
         qnas[i] = {
           id: '-',
           title: '-',
@@ -157,38 +148,70 @@ router.get('/qna', isLoggedIn, async (req, res, next) => {
           },
           createdAt: '-',
         };
-        // qnas[i].dataValues.id = '-';
-        // qnas[i].dataValues.title = '-';
-        // qnas[i].dataValues.User.dataValues.nick = '-';
-        // qnas[i].dataValues.createdAt = '-';
       }
-      // console.log(qnas[i]);
-    }
-    // const ans = await Post.findAll({
-    //   attributes: ['id', 'createdAt', 'content'],
-    //   include: {
-    //     model: User,
-    //     // attributes: ['id', 'nick', Sequelize.literal('ROW_NUMBER() OVER(ORDER BY id ASC)', 'rownum')],
-    //     attributes: ['id', 'nick'],
-    //   },
-    //   where: { asknum: { [Op.not]: null } },
-    //   order: [['createdAt', 'DESC']],
-    // });
+      res.render('qna', {
+        title: 'QnA - NodeProject',
+        qnas: qnas,
+        // answer: ans,
+        count: [1],
+        page: 1,
+        signin: true,
+        signup: true,
+      });
+    }else{
 
-    // console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
-    // console.log(qnas);
-    const end = (await Post.findAndCountAll({})).count / 5;
-    const count = [];
-    for (let j = 0; j < end; j++) count[j] = j + 1;
-    res.render('qna', {
-      title: 'QnA - NodeProject',
-      qnas: qnas,
-      // answer: ans,
-      count: count,
-      page: page + 1,
-      signin: true,
-      signup: true,
-    });
+      for (let i = 0; i < 5; i++) {
+        if (qnas[i]) {
+          let date = qnas[i].dataValues.createdAt;
+          let nowdate = new Date();
+          // console.log(date);
+          let newdate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}`;
+          // console.log(newdate);
+          qnas[i].dataValues.createdAt = newdate;
+        } else {
+          
+          qnas[i] = qnas[0].getDataValue;
+          qnas[i] = {
+            id: '-',
+            title: '-',
+            User: {
+              nick: '-',
+            },
+            createdAt: '-',
+          };
+          // qnas[i].dataValues.id = '-';
+          // qnas[i].dataValues.title = '-';
+          // qnas[i].dataValues.User.dataValues.nick = '-';
+          // qnas[i].dataValues.createdAt = '-';
+        }
+        // console.log(qnas[i]);
+      }
+      // const ans = await Post.findAll({
+      //   attributes: ['id', 'createdAt', 'content'],
+      //   include: {
+      //     model: User,
+      //     // attributes: ['id', 'nick', Sequelize.literal('ROW_NUMBER() OVER(ORDER BY id ASC)', 'rownum')],
+      //     attributes: ['id', 'nick'],
+      //   },
+      //   where: { asknum: { [Op.not]: null } },
+      //   order: [['createdAt', 'DESC']],
+      // });
+
+      // console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+      // console.log(qnas);
+      const end = (await Post.findAndCountAll({})).count / 5;
+      const count = [];
+      for (let j = 0; j < end; j++) count[j] = j + 1;
+      res.render('qna', {
+        title: 'QnA - NodeProject',
+        qnas: qnas,
+        // answer: ans,
+        count: count,
+        page: page + 1,
+        signin: true,
+        signup: true,
+      });
+    }
   } catch (err) {
     console.error(err);
     next(err);
