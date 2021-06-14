@@ -59,15 +59,16 @@
         {% if answer %}
         <tr>
           <td >
-            <p>대답한 운영자:{{answer.nick}}</p>
+            <p id = "answersm" value="{{answer.nick}}">대답한 운영자:{{answer.nick}}</p>
           </td>
           <td colspan="2">
             
-            <span>대답:{{answer.content}}</span>
+            <span id = "answerspan" value="{{answer.content}}">대답:{{answer.content}}</span>
             {% if user.SM %}
             <form id="qna-form" action="/del/comment?asknum={{answer.asknum}}&page={{content.id}}" method="post" enctype="multipart/form-data">
               <button id="btn" type="submit" class="btn btn-outline-primary">대답 삭제</button>
             </form>
+            <a id="changebtn" class="btn btn-outline-primary" href="/change?page={{content.id}}">대답 변경</a>
             {% endif %}
             <!--  -->
           </td>
@@ -111,5 +112,6 @@
       }
     }
   </script>
+
   {% endblock %}
 </div>

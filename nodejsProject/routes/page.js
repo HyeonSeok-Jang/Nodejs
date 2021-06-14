@@ -87,7 +87,14 @@ router.get('/write', isLoggedIn, (req, res) => {
     signup: true,
   });
 });
-
+router.get('/change', isLoggedIn, async (req, res) => {
+  res.render('change', {
+    title: 'Change - NodeProject',
+    page: req.query.page,
+    signin: true,
+    signup: true,
+  });
+});
 router.get('/qna', isLoggedIn, async (req, res, next) => {
   try {
     const page = req.query.page - 1;

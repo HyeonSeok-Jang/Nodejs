@@ -1,0 +1,63 @@
+{% extends 'empty-layout.html' %} {% block style %}
+<link rel="stylesheet" href="/write.css" />
+{% endblock %} {% block content %}
+<form id="qna-form" action="/post/change?page={{page}}" method="post" enctype="multipart/form-data">
+  <div class="input-group">
+    <span class="input-group-text" id="basic-addon1">내용</span>
+    <textarea
+      id="qna"
+      class="form-control"
+      name="content"
+      maxlength="140"
+      wrap="physical"
+      rows="4"
+      type="text"
+      placeholder="CONTENT"
+      aria-label="Username"
+      aria-describedby="basic-addon1"
+      onkeydown="return limitLines(this, event)"
+      required
+    ></textarea>
+    <div class="img-preview">
+      <!-- <img id="img-preview" src="" style="display: none" width="250" alt="미리보기" />
+      <input id="img-url" type="hidden" name="url" data="0" /> -->
+    </div>
+  </div>
+</form>
+<button id="qna-btn" type="submit" class="mainbtn btn btn-outline-primary" form="qna-form">수정하기</button>
+<a id="rtn-btn" class="mainbtn btn btn-outline-primary" value="/content?page={{page}}">돌아가기</a>
+{% endblock %} {% block script %}
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<!-- <script src="/sequelize.js"></script> -->
+<script>
+  function limitTitle(obj, e) {
+    // 현재 textarea에 입력된 줄 수
+    let numberOfLines = (obj.value.match(/\n/g) || []).length + 1;
+    // textarea에 선언된 rows 수
+    let maxRows = obj.rows;
+    if (e.which === 13 && numberOfLines >= maxRows) {
+      return false;
+    }
+  }
+  function limitLines(obj, e) {
+    // 현재 textarea에 입력된 줄 수
+    let numberOfLines = (obj.value.match(/\n/g) || []).length + 1;
+    // textarea에 선언된 rows 수
+    let maxRows = obj.rows;
+    if (e.which === 13 && numberOfLines >= maxRows) {
+      return false;
+    }
+  }
+  // function findScript(qna, ans){
+
+  // }
+  window.onload = (e) => {
+    const btn = document.querySelector('#rtn-btn');
+    btn.addEventListener('click', (e) => {
+      // console.log();
+      location.href = btn.getAttribute('value');
+    });
+  };
+</script>
+
+{% endblock %}

@@ -76,10 +76,34 @@ router.post('/sm', isLoggedIn, upload2.none(), async (req, res, next) => {
 
     // res.redirect('/');
 
-    res.redirect(`/Content?page=${page}`);
+    res.redirect(`/content?page=${page}`);
   } catch (error) {
     console.error(error);
     next(error);
+  }
+});
+router.post('/change', isLoggedIn, upload2.none(), async (req, res, next) => {
+  try {
+    const page = req.query.page;
+    console.log(page);
+    console.log(req.user.id);
+    console.log(req.user.nick);
+    console.log(req.body.content);
+    await Comment.update(
+      {
+        content: req.body.content,
+        askid: req.user.id,
+      },
+      {
+        where: {
+          asknum: page,
+        },
+      }
+    );
+    res.redirect(`/content?page=${page}`);
+  } catch (err) {
+    console.error(err);
+    next(err);
   }
 });
 /*
